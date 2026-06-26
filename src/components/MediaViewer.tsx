@@ -30,7 +30,7 @@ export default function MediaViewer({ media }: Props) {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.98 }}
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="aspect-video w-full"
+            className="w-full"
           >
             {item.type === 'video' ? (
               <video
@@ -42,13 +42,13 @@ export default function MediaViewer({ media }: Props) {
                 loop
                 playsInline
                 poster={item.thumbnail}
-                className="w-full h-full object-cover"
+                className="w-full h-auto"
               />
             ) : (
               <img
                 src={item.url}
                 alt={item.caption || `Media ${current + 1}`}
-                className="w-full h-full object-cover"
+                className="w-full h-auto"
               />
             )}
           </motion.div>
