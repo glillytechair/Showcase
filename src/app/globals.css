@@ -44,13 +44,19 @@ body {
 }
 
 .glass-hover {
-  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.25s ease;
 }
 
 .glass-hover:hover {
-  background: var(--bg-card-hover);
-  border-color: var(--border-hover);
-  box-shadow: 0 0 40px rgba(79,142,247,0.08), inset 0 0 40px rgba(79,142,247,0.02);
+  background: rgba(255,255,255,0.065);
+  border-color: rgba(99,179,237,0.5);
+  box-shadow:
+    0 0 0 1px rgba(79,142,247,0.12),
+    0 8px 40px rgba(79,142,247,0.14),
+    0 0 80px rgba(79,142,247,0.05),
+    inset 0 1px 0 rgba(255,255,255,0.06),
+    inset 0 0 30px rgba(79,142,247,0.03);
+  transform: translateY(-1px);
 }
 
 .tag-pill {
@@ -84,6 +90,83 @@ body {
 }
 
 .animate-pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }
+
+/* Horizontal scan line sweeping down the background */
+@keyframes scan-h {
+  0%   { transform: translateY(0);     opacity: 0; }
+  4%   { opacity: 1; }
+  96%  { opacity: 1; }
+  100% { transform: translateY(100vh); opacity: 0; }
+}
+
+.scan-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(79,142,247,0.0) 5%,
+    rgba(79,142,247,0.6) 20%,
+    rgba(79,142,247,1)   50%,
+    rgba(79,142,247,0.6) 80%,
+    rgba(79,142,247,0.0) 95%,
+    transparent 100%
+  );
+  box-shadow: 0 0 10px 2px rgba(79,142,247,0.35);
+  animation: scan-h 14s linear 3s infinite;
+  pointer-events: none;
+}
+
+/* Card shimmer sweep on hover */
+@keyframes shimmer-pass {
+  0%   { transform: translateX(-160%) skewX(-12deg); }
+  100% { transform: translateX(200%)  skewX(-12deg); }
+}
+
+.shimmer-sweep {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    transparent 20%,
+    rgba(255,255,255,0.025) 40%,
+    rgba(255,255,255,0.045) 50%,
+    rgba(255,255,255,0.025) 60%,
+    transparent 80%
+  );
+  transform: translateX(-160%) skewX(-12deg);
+  pointer-events: none;
+  z-index: 10;
+}
+
+.card-shimmer:hover .shimmer-sweep {
+  animation: shimmer-pass 0.7s ease-out forwards;
+}
+
+/* Pulsing online indicator dot */
+@keyframes online-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0,210,140,0.55); }
+  60%       { box-shadow: 0 0 0 5px rgba(0,210,140,0); }
+}
+
+.online-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #4dffc3;
+  animation: online-pulse 2.2s ease-out infinite;
+  flex-shrink: 0;
+}
+
+/* Terminal / HUD monospace text */
+.terminal {
+  font-family: 'SF Mono', ui-monospace, 'Cascadia Code', 'Fira Code', 'Courier New', monospace;
+  letter-spacing: 0.04em;
+}
 
 @keyframes float {
   0%, 100% { transform: translateY(0px); }

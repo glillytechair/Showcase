@@ -36,7 +36,8 @@ export default function FeatureRow({ feature, index }: Props) {
       transition={{ duration: 0.4, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
     >
       <Link href={`/feature/${feature.slug}`} className="block group">
-        <div className={`glass glass-hover rounded-xl px-5 py-4 flex items-center gap-5 relative ${isNewApp ? 'new-app-row' : ''}`}>
+        <div className={`glass glass-hover card-shimmer rounded-xl px-5 py-4 flex items-center gap-5 relative ${isNewApp ? 'new-app-row' : ''}`}>
+          <div className="shimmer-sweep" />
           {/* Thumbnail */}
           {firstImage && (
             <div className="flex-shrink-0 w-16 h-12 rounded-lg overflow-hidden bg-[rgba(255,255,255,0.03)] border border-[var(--border)]">
@@ -80,6 +81,9 @@ export default function FeatureRow({ feature, index }: Props) {
             size={14}
             className="flex-shrink-0 text-[var(--text-secondary)] group-hover:text-[var(--accent)] group-hover:translate-x-1 transition-all duration-200"
           />
+
+          {/* Bottom glow line on hover */}
+          <div className="absolute bottom-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-[var(--accent)] to-transparent opacity-0 group-hover:opacity-40 transition-opacity duration-400" />
         </div>
       </Link>
     </motion.div>

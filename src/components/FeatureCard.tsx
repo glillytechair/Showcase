@@ -40,7 +40,8 @@ export default function FeatureCard({ feature, index }: Props) {
       className="h-full"
     >
       <Link href={`/feature/${feature.slug}`} className="block group h-full">
-        <article className={`glass glass-hover rounded-2xl overflow-hidden h-full flex flex-col relative ${isNewApp ? 'new-app-card' : ''}`}>
+        <article className={`glass glass-hover card-shimmer rounded-2xl overflow-hidden h-full flex flex-col relative ${isNewApp ? 'new-app-card' : ''}`}>
+          <div className="shimmer-sweep" />
           {/* Media preview */}
           <div className="relative aspect-video overflow-hidden bg-[rgba(255,255,255,0.02)]">
             {firstMedia?.type === 'video' ? (
@@ -50,13 +51,13 @@ export default function FeatureCard({ feature, index }: Props) {
                 loop
                 playsInline
                 autoPlay
-                className="w-full h-full object-cover opacity-70 group-hover:opacity-90 transition-opacity duration-500 scale-105 group-hover:scale-100 transition-transform duration-700"
+                className="w-full h-full object-cover opacity-70 group-hover:opacity-90 transition-all duration-500 scale-105 group-hover:scale-100"
               />
             ) : firstMedia?.url ? (
               <img
                 src={firstMedia.url}
                 alt={firstMedia.caption || feature.title}
-                className="w-full h-full object-cover opacity-70 group-hover:opacity-90 transition-opacity duration-500 scale-105 group-hover:scale-100 transition-transform duration-700"
+                className="w-full h-full object-cover opacity-70 group-hover:opacity-90 transition-all duration-500 scale-105 group-hover:scale-100"
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center">
@@ -65,7 +66,15 @@ export default function FeatureCard({ feature, index }: Props) {
             )}
 
             {/* Gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#070810] via-transparent to-transparent opacity-60" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#070810] via-[#070810]/20 to-transparent opacity-70 group-hover:opacity-50 transition-opacity duration-500" />
+
+            {/* CRT scanline texture on hover */}
+            <div
+              className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+              style={{
+                backgroundImage: 'repeating-linear-gradient(0deg, rgba(0,0,0,0.12) 0px, rgba(0,0,0,0.12) 1px, transparent 1px, transparent 4px)',
+              }}
+            />
 
             {/* Video badge */}
             {hasVideo && (

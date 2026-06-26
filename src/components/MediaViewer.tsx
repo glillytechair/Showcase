@@ -25,11 +25,16 @@ export default function MediaViewer({ media }: Props) {
       <div
         className="relative rounded-2xl overflow-hidden group"
         style={{
-          background: 'rgba(255,255,255,0.015)',
+          background: 'rgba(255,255,255,0.018)',
           border: '1px solid rgba(255,255,255,0.1)',
-          boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.04), 0 0 40px rgba(0,0,0,0.4)',
+          boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.04), 0 0 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(79,142,247,0.06)',
         }}
       >
+        {/* Accent top bar */}
+        <div
+          className="absolute top-0 left-0 right-0 h-px z-10"
+          style={{ background: 'linear-gradient(90deg, transparent 0%, rgba(79,142,247,0.6) 30%, rgba(79,142,247,0.9) 50%, rgba(79,142,247,0.6) 70%, transparent 100%)' }}
+        />
         {/* Fixed-height stage — all images sit inside this box */}
         <div className="relative w-full h-[560px] flex items-center justify-center p-6">
 

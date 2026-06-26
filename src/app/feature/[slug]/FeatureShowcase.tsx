@@ -6,7 +6,7 @@ import { Feature } from '@/types'
 import MediaViewer from '@/components/MediaViewer'
 import AnimatedSection from '@/components/AnimatedSection'
 import GridBackground from '@/components/GridBackground'
-import { ArrowLeft, ArrowRight, CheckCircle2, Calendar, Layers } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Calendar, Layers } from 'lucide-react'
 
 interface Props {
   feature: Feature
@@ -56,12 +56,12 @@ export default function FeatureShowcase({ feature, prev, next }: Props) {
       />
 
       <div className="relative z-10 max-w-4xl mx-auto px-6 pb-24">
-        {/* Back nav */}
+        {/* Back nav + system identifier */}
         <motion.div
           initial={{ opacity: 0, x: -12 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.4 }}
-          className="pt-8 mb-10"
+          className="pt-8 mb-10 flex items-center justify-between"
         >
           <Link
             href="/"
@@ -70,6 +70,9 @@ export default function FeatureShowcase({ feature, prev, next }: Props) {
             <ArrowLeft size={15} className="group-hover:-translate-x-1 transition-transform duration-200" />
             All updates
           </Link>
+          <div className="terminal text-[10px] text-[var(--text-secondary)] tracking-widest hidden sm:block">
+            NETA<span className="text-[var(--accent)]">::</span>TECH<span className="text-[var(--accent)]">/</span>SHOWCASE
+          </div>
         </motion.div>
 
         {/* Hero text */}
@@ -79,8 +82,8 @@ export default function FeatureShowcase({ feature, prev, next }: Props) {
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="mb-10"
         >
-          {/* Tag + meta row */}
-          <div className="flex flex-wrap items-center gap-3 mb-5">
+          {/* Tag + meta row — HUD style */}
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-5">
             <span
               className="tag-pill"
               style={{
@@ -91,16 +94,25 @@ export default function FeatureShowcase({ feature, prev, next }: Props) {
             >
               {feature.tag}
             </span>
+
+            <span className="text-[var(--border)] terminal text-[11px]">//</span>
+
             {feature.department && (
-              <span className="flex items-center gap-1.5 text-[11px] text-[var(--text-secondary)]">
-                <Layers size={11} />
-                {feature.department}
+              <span className="flex items-center gap-1.5 terminal text-[11px] text-[var(--text-secondary)]">
+                <Layers size={10} style={{ color: tagTextColors[feature.tag] }} />
+                <span style={{ color: tagTextColors[feature.tag] }} className="opacity-70">{feature.department.toUpperCase()}</span>
               </span>
             )}
-            <span className="flex items-center gap-1.5 text-[11px] text-[var(--text-secondary)]">
-              <Calendar size={11} />
+
+            <span className="flex items-center gap-1.5 terminal text-[11px] text-[var(--text-secondary)]">
+              <Calendar size={10} />
               {formatDate(feature.date)}
             </span>
+
+            <div className="ml-auto flex items-center gap-2">
+              <div className="online-dot" />
+              <span className="terminal text-[10px] tracking-widest uppercase" style={{ color: '#4dffc3' }}>Deployed</span>
+            </div>
           </div>
 
           <h1
@@ -135,24 +147,37 @@ export default function FeatureShowcase({ feature, prev, next }: Props) {
         {/* Highlights */}
         {feature.highlights && feature.highlights.length > 0 && (
           <AnimatedSection delay={0.3} className="mb-12">
-            <h2 className="text-sm font-semibold text-[var(--text-secondary)] uppercase tracking-widest mb-4">
-              What&apos;s included
-            </h2>
-            <ul className="space-y-3">
+            <div className="flex items-center gap-3 mb-4">
+              <h2 className="terminal text-[11px] font-semibold text-[var(--text-secondary)] uppercase tracking-widest">
+                What&apos;s included
+              </h2>
+              <div className="flex-1 h-px" style={{ background: `linear-gradient(90deg, ${tagTextColors[feature.tag] ?? '#7eb8ff'}30, transparent)` }} />
+            </div>
+            <ul className="space-y-2.5">
               {feature.highlights.map((item, i) => (
                 <motion.li
                   key={i}
-                  initial={{ opacity: 0, x: -12 }}
+                  initial={{ opacity: 0, x: -16 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.4, delay: 0.3 + i * 0.07 }}
-                  className="flex items-start gap-3 glass rounded-xl px-4 py-3"
+                  transition={{ duration: 0.4, delay: 0.3 + i * 0.08 }}
+                  className="card-shimmer flex items-start gap-3 glass rounded-xl px-4 py-3 relative overflow-hidden"
                 >
-                  <CheckCircle2
-                    size={16}
-                    className="mt-0.5 flex-shrink-0"
-                    style={{ color: tagTextColors[feature.tag] ?? '#7eb8ff' }}
-                  />
-                  <span className="text-sm text-[var(--text-primary)] leading-relaxed">{item}</span>
+                  <div className="shimmer-sweep" />
+                  <div
+                    className="flex-shrink-0 w-7 h-7 rounded-lg flex items-center justify-center"
+                    style={{
+                      background: `${tagColors[feature.tag] ?? 'rgba(79,142,247,0.15)'}`,
+                      border: `1px solid ${tagTextColors[feature.tag] ?? '#7eb8ff'}35`,
+                    }}
+                  >
+                    <span
+                      className="terminal text-[10px] font-bold"
+                      style={{ color: tagTextColors[feature.tag] ?? '#7eb8ff' }}
+                    >
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                  </div>
+                  <span className="text-sm text-[var(--text-primary)] leading-relaxed pt-0.5">{item}</span>
                 </motion.li>
               ))}
             </ul>

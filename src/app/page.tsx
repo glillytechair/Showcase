@@ -68,6 +68,35 @@ export default function HomePage() {
           </div>
         </header>
 
+        {/* Stats bar */}
+        <motion.div
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.38 }}
+          className="flex items-center justify-center gap-6 mb-8 -mt-2"
+        >
+          {[
+            { label: 'UPDATES', value: features.length },
+            { label: 'APPS', value: new Set(features.map(f => f.appName)).size },
+            { label: 'DEPTS', value: new Set(features.filter(f => f.department).map(f => f.department)).size },
+          ].map(({ label, value }, i) => (
+            <div key={label} className="flex items-center gap-6">
+              {i > 0 && <div className="w-px h-5 bg-[var(--border)]" />}
+              <div className="text-center">
+                <div className="text-xl font-bold text-[var(--accent)] terminal leading-none">{value}</div>
+                <div className="text-[9px] text-[var(--text-secondary)] terminal tracking-widest mt-0.5 uppercase">{label}</div>
+              </div>
+            </div>
+          ))}
+          <div className="flex items-center gap-6">
+            <div className="w-px h-5 bg-[var(--border)]" />
+            <div className="flex items-center gap-2">
+              <div className="online-dot" />
+              <span className="text-[9px] terminal tracking-widest uppercase" style={{ color: '#4dffc3' }}>Live</span>
+            </div>
+          </div>
+        </motion.div>
+
         {/* Controls */}
         <motion.div
           initial={{ opacity: 0, y: 8 }}
