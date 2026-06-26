@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { Feature } from '@/types'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Sparkles } from 'lucide-react'
 
 interface Props {
   feature: Feature
@@ -27,6 +27,7 @@ function formatDate(iso: string) {
 
 export default function FeatureRow({ feature, index }: Props) {
   const firstImage = feature.media.find((m) => m.type === 'image')
+  const isNewApp = feature.tag === 'New Application'
 
   return (
     <motion.div
@@ -35,7 +36,7 @@ export default function FeatureRow({ feature, index }: Props) {
       transition={{ duration: 0.4, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
     >
       <Link href={`/feature/${feature.slug}`} className="block group">
-        <div className="glass glass-hover rounded-xl px-5 py-4 flex items-center gap-5">
+        <div className={`glass glass-hover rounded-xl px-5 py-4 flex items-center gap-5 relative ${isNewApp ? 'new-app-row' : ''}`}>
           {/* Thumbnail */}
           {firstImage && (
             <div className="flex-shrink-0 w-16 h-12 rounded-lg overflow-hidden bg-[rgba(255,255,255,0.03)] border border-[var(--border)]">
@@ -64,7 +65,8 @@ export default function FeatureRow({ feature, index }: Props) {
           </div>
 
           {/* Tag */}
-          <span className={`tag-pill flex-shrink-0 hidden sm:inline ${tagClass[feature.tag] || ''}`}>
+          <span className={`tag-pill flex-shrink-0 hidden sm:inline-flex items-center gap-1 ${tagClass[feature.tag] || ''}`}>
+            {isNewApp && <Sparkles size={10} className="animate-pulse-glow" />}
             {feature.tag}
           </span>
 

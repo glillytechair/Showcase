@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { Feature } from '@/types'
-import { ArrowRight, Play } from 'lucide-react'
+import { ArrowRight, Play, Sparkles } from 'lucide-react'
 
 interface Props {
   feature: Feature
@@ -30,6 +30,7 @@ function formatDate(iso: string) {
 export default function FeatureCard({ feature, index }: Props) {
   const hasVideo = feature.media.some((m) => m.type === 'video')
   const firstMedia = feature.media[0]
+  const isNewApp = feature.tag === 'New Application'
 
   return (
     <motion.div
@@ -39,7 +40,7 @@ export default function FeatureCard({ feature, index }: Props) {
       className="h-full"
     >
       <Link href={`/feature/${feature.slug}`} className="block group h-full">
-        <article className="glass glass-hover rounded-2xl overflow-hidden h-full flex flex-col">
+        <article className={`glass glass-hover rounded-2xl overflow-hidden h-full flex flex-col relative ${isNewApp ? 'new-app-card' : ''}`}>
           {/* Media preview */}
           <div className="relative aspect-video overflow-hidden bg-[rgba(255,255,255,0.02)]">
             {firstMedia?.type === 'video' ? (
@@ -92,7 +93,10 @@ export default function FeatureCard({ feature, index }: Props) {
           {/* Content */}
           <div className="p-5 flex flex-col gap-3 flex-1">
             <div className="flex items-center justify-between gap-2">
-              <span className={`tag-pill ${tagClass[feature.tag] || ''}`}>{feature.tag}</span>
+              <span className={`tag-pill inline-flex items-center gap-1 ${tagClass[feature.tag] || ''}`}>
+                {isNewApp && <Sparkles size={10} className="animate-pulse-glow" />}
+                {feature.tag}
+              </span>
               {feature.department && (
                 <span className="text-[10px] text-[var(--text-secondary)] font-medium">{feature.department}</span>
               )}
