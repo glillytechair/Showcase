@@ -36,8 +36,9 @@ export default function FeatureCard({ feature, index }: Props) {
       initial={{ opacity: 0, y: 32 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
+      className="h-full"
     >
-      <Link href={`/feature/${feature.slug}`} className="block group">
+      <Link href={`/feature/${feature.slug}`} className="block group h-full">
         <article className="glass glass-hover rounded-2xl overflow-hidden h-full flex flex-col">
           {/* Media preview */}
           <div className="relative aspect-video overflow-hidden bg-[rgba(255,255,255,0.02)]">
