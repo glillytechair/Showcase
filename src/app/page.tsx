@@ -13,7 +13,7 @@ type ViewMode  = 'grid' | 'list'
 
 export default function HomePage() {
   const [sort, setSort]     = useState<SortOrder>('newest')
-  const [view, setView]     = useState<ViewMode>('grid')
+  const [view, setView]     = useState<ViewMode>('list')
 
   const sorted = [...features].sort((a, b) => {
     const delta = new Date(b.date).getTime() - new Date(a.date).getTime()
