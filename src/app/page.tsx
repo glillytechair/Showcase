@@ -90,11 +90,7 @@ export default function HomePage() {
               transition={{ duration: 0.8, delay: 0.35 }}
               className="flex items-center justify-center gap-4 mt-9"
             >
-              <div className="line-accent w-20" />
-              <span className="terminal text-[9px] text-[var(--text-secondary)] tracking-[0.18em] uppercase opacity-55">
-                New England Tech Air · Engineering
-              </span>
-              <div className="line-accent w-20" />
+              <div className="line-accent w-32" />
             </motion.div>
           </div>
         </header>
