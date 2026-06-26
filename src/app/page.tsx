@@ -26,44 +26,46 @@ export default function HomePage() {
 
       <div className="relative z-10 max-w-6xl mx-auto px-6 pb-24">
         {/* Header */}
-        <header className="pt-20 pb-12 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: -12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[rgba(79,142,247,0.3)] bg-[rgba(79,142,247,0.08)] mb-6"
-          >
-            <Zap size={12} className="text-[var(--accent)] animate-pulse-glow" />
-            <span className="text-[11px] font-semibold text-[var(--accent)] uppercase tracking-widest">
-              Tech Department
-            </span>
-          </motion.div>
+        <header className="pt-20 pb-14 text-center">
+          <div className="inline-block glass rounded-2xl px-8 py-10 md:px-12 md:py-12 border border-[rgba(79,142,247,0.12)] shadow-[0_24px_80px_rgba(0,0,0,0.35)]">
+            <motion.div
+              initial={{ opacity: 0, y: -12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[rgba(79,142,247,0.3)] bg-[rgba(79,142,247,0.08)] mb-6"
+            >
+              <Zap size={12} className="text-[var(--accent)] animate-pulse-glow" />
+              <span className="text-[11px] font-semibold text-[var(--accent)] uppercase tracking-widest">
+                Tech Department
+              </span>
+            </motion.div>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="text-5xl md:text-6xl font-bold tracking-tight text-glow"
-            style={{ letterSpacing: '-0.03em' }}
-          >
-            What we&apos;ve built
-          </motion.h1>
+            <motion.h1
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+              className="text-5xl md:text-6xl font-bold tracking-tight text-glow"
+              style={{ letterSpacing: '-0.03em' }}
+            >
+              What we&apos;ve built
+            </motion.h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-4 text-lg text-[var(--text-secondary)] max-w-xl mx-auto"
-          >
-            The latest features, enhancements, and improvements from our engineering team.
-          </motion.p>
+            <motion.p
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+              className="mt-5 text-base md:text-lg text-[var(--text-secondary)] md:whitespace-nowrap text-balance"
+            >
+              The latest features, enhancements, and improvements from our engineering team.
+            </motion.p>
 
-          <motion.div
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ duration: 0.8, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="line-accent w-32 mx-auto mt-8"
-          />
+            <motion.div
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ duration: 0.8, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              className="line-accent w-32 mx-auto mt-8"
+            />
+          </div>
         </header>
 
         {/* Controls */}
