@@ -8,6 +8,43 @@ import { Feature } from '@/types'
 
 export const features: Feature[] = [
   {
+    id: '4',
+    slug: 'dailyplan',
+    appName: 'DailyPlan',
+    title: 'DailyPlan — The Field Operations Platform',
+    subtitle: 'One place where the field, the office, and management run the day off the same page.',
+    description:
+      "DailyPlan is the operating system for the company's day-to-day work. It started as a planning tool for the on-site foreman and grew into a single app that ties together everyone who touches a job — field crews, project managers, dispatch, CAD, safety, HR, and the back office.\n\nWhen someone logs in, the app knows who they are and takes them straight to the work that's theirs. A foreman lands on the day's plan for the job. A project manager sees their assignments, forecasts, and buyouts. A drafter goes to the CAD dashboard. Everyone is working in the same system, looking at the same live data, instead of stitching the picture together from texts, spreadsheets, and email.\n\nConstruction work is coordinated across a dozen disconnected places — a whiteboard in the trailer, a scheduling spreadsheet, Procore, a pile of paper work orders, a group text about who's driving what truck tomorrow. Information lives in people's heads and inboxes, and by the time a problem reaches the people who can fix it, it's already late.\n\nDailyPlan pulls those threads into one source of truth. Plans, schedules, orders, change orders, equipment, manpower, safety, and CAD all live in the same app and update in real time, so the field and the office stop guessing about what the other one is doing.\n\nDailyPlan was built for people working out of a trailer or a truck, not a desk. The interface is fast, the data is always current, and the most important answers — what am I doing today, what's in my way, what's coming — are never more than a tap away. Everything else in the platform exists to keep that answer accurate.",
+    date: '2026-01-01',
+    tag: 'New Application',
+    department: 'Field Operations',
+    highlights: [
+      'Role-aware landing — each user is taken straight to the view that matches their job: foreman, PM, drafter, dispatcher, safety, or management',
+      'Daily Plan — the foreman\'s plan for each job with crews, tasks, constraints, and priorities so the field starts the day ready',
+      'Dashboard — top-line read across active work, attention items, and current status in one glance',
+      'Schedule — company-wide, per-job, and equipment scheduling in one place instead of competing spreadsheets',
+      'Dispatch & Trucking — assignments, trucks, and deliveries coordinated so the right people and gear reach the site',
+      'Orders, Change Orders & Work Orders — material and scope tracked from request through delivery, captured in the open',
+      'PM Tools — assignments, daily summaries, planning whiteboard, buyout tracking, rentals, labor forecasting, internal tasks, and seal coordination',
+      'AeroSeal — field requests, seal runs, and billing linked together even across jobs',
+      'CAD / CADash — the drafting team\'s live assignments, progress, priorities, due dates, and file links',
+      'Safety — audits, library, and review built into the app so compliance lives with the work',
+      'Time Review & HR — labor review and people workflows in the same platform',
+      'Procore integration — connects DailyPlan to existing systems so data flows instead of being re-entered',
+      'Live, shared data — everyone works from the same source of truth without status meetings or version chasing',
+      'Early problem surfacing — constraints, blocks, and rush items are flagged where the right people will see them',
+      'Built for the field first — fast interface, always-current data, and the day\'s answers never more than a tap away',
+    ],
+    media: [
+      { type: 'image', url: '/dailyplan1.png', caption: 'DailyPlan — Field Operations Platform overview' },
+      { type: 'image', url: '/dailyplan2.png', caption: 'Daily Plan view for the on-site foreman' },
+      { type: 'image', url: '/dailyplan3.png', caption: 'Dashboard across active work and attention items' },
+      { type: 'image', url: '/dailyplan4.png', caption: 'Scheduling and dispatch coordination' },
+      { type: 'image', url: '/dailyplan5.png', caption: 'PM tools and project management workspace' },
+      { type: 'image', url: '/dailyplan6.png', caption: 'Orders, change orders, and work order tracking' },
+    ],
+  },
+  {
     id: '3',
     slug: 'report-reader',
     appName: 'QuoteGen',
