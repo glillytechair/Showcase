@@ -21,38 +21,57 @@ export default function MediaViewer({ media }: Props) {
 
   return (
     <>
-      {/* Main viewer */}
-      <div className="relative rounded-2xl overflow-hidden bg-[rgba(255,255,255,0.02)] border border-[var(--border)] group">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={current}
-            initial={{ opacity: 0, scale: 1.02 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.98 }}
-            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="w-full"
-          >
-            {item.type === 'video' ? (
-              <video
-                key={item.url}
-                src={item.url}
-                controls
-                autoPlay
-                muted
-                loop
-                playsInline
-                poster={item.thumbnail}
-                className="w-full h-auto"
-              />
-            ) : (
-              <img
-                src={item.url}
-                alt={item.caption || `Media ${current + 1}`}
-                className="w-full h-auto"
-              />
-            )}
-          </motion.div>
-        </AnimatePresence>
+      {/* Main viewer — fixed height container, image contained inside */}
+      <div
+        className="relative rounded-2xl overflow-hidden group"
+        style={{
+          background: 'rgba(255,255,255,0.015)',
+          border: '1px solid rgba(255,255,255,0.1)',
+          boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.04), 0 0 40px rgba(0,0,0,0.4)',
+        }}
+      >
+        {/* Fixed-height stage — all images sit inside this box */}
+        <div className="relative w-full h-[560px] flex items-center justify-center p-6">
+
+          {/* Subtle inner border that frames the image */}
+          <div
+            className="absolute inset-4 rounded-xl pointer-events-none"
+            style={{ border: '1px solid rgba(255,255,255,0.06)' }}
+          />
+
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={current}
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 1.02 }}
+              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              className="relative flex items-center justify-center w-full h-full"
+            >
+              {item.type === 'video' ? (
+                <video
+                  key={item.url}
+                  src={item.url}
+                  controls
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  poster={item.thumbnail}
+                  className="max-w-full max-h-full rounded-lg object-contain"
+                  style={{ boxShadow: '0 8px 40px rgba(0,0,0,0.5)' }}
+                />
+              ) : (
+                <img
+                  src={item.url}
+                  alt={item.caption || `Media ${current + 1}`}
+                  className="max-w-full max-h-full rounded-lg object-contain"
+                  style={{ boxShadow: '0 8px 40px rgba(0,0,0,0.5)' }}
+                />
+              )}
+            </motion.div>
+          </AnimatePresence>
+        </div>
 
         {/* Expand button */}
         {item.type === 'image' && (
@@ -64,28 +83,39 @@ export default function MediaViewer({ media }: Props) {
           </button>
         )}
 
-        {/* Nav arrows (multi-media only) */}
+        {/* Nav arrows */}
         {media.length > 1 && (
           <>
             <button
               onClick={prev}
-              className="absolute left-3 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-black/60 backdrop-blur-sm rounded-full p-2 hover:bg-black/80"
+              className="absolute left-3 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-black/60 backdrop-blur-sm rounded-full p-2.5 hover:bg-black/80"
             >
               <ChevronLeft size={18} className="text-white" />
             </button>
             <button
               onClick={next}
-              className="absolute right-3 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-black/60 backdrop-blur-sm rounded-full p-2 hover:bg-black/80"
+              className="absolute right-3 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-black/60 backdrop-blur-sm rounded-full p-2.5 hover:bg-black/80"
             >
               <ChevronRight size={18} className="text-white" />
             </button>
           </>
         )}
 
-        {/* Caption */}
+        {/* Caption bar */}
         {item.caption && (
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent px-4 py-3">
-            <p className="text-xs text-white/70">{item.caption}</p>
+          <div
+            className="absolute bottom-0 left-0 right-0 px-5 py-3 flex items-center justify-between"
+            style={{
+              background: 'linear-gradient(to top, rgba(0,0,0,0.7), transparent)',
+              borderTop: '1px solid rgba(255,255,255,0.06)',
+            }}
+          >
+            <p className="text-xs text-white/60">{item.caption}</p>
+            {media.length > 1 && (
+              <span className="text-[10px] text-white/40 tabular-nums">
+                {current + 1} / {media.length}
+              </span>
+            )}
           </div>
         )}
       </div>
@@ -97,16 +127,20 @@ export default function MediaViewer({ media }: Props) {
             <button
               key={i}
               onClick={() => setCurrent(i)}
-              className={`relative flex-shrink-0 w-20 aspect-video rounded-lg overflow-hidden border-2 transition-all duration-200 ${
-                i === current
-                  ? 'border-[var(--accent)] opacity-100'
-                  : 'border-transparent opacity-50 hover:opacity-75'
-              }`}
+              className="relative flex-shrink-0 w-20 h-14 rounded-lg overflow-hidden transition-all duration-200"
+              style={{
+                border: i === current
+                  ? '2px solid var(--accent)'
+                  : '2px solid rgba(255,255,255,0.08)',
+                background: 'rgba(255,255,255,0.03)',
+                opacity: i === current ? 1 : 0.5,
+                boxShadow: i === current ? '0 0 12px rgba(79,142,247,0.3)' : 'none',
+              }}
             >
               {m.type === 'video' ? (
-                <video src={m.url} muted className="w-full h-full object-cover" />
+                <video src={m.url} muted className="w-full h-full object-contain" />
               ) : (
-                <img src={m.url} alt="" className="w-full h-full object-cover" />
+                <img src={m.url} alt="" className="w-full h-full object-contain" />
               )}
             </button>
           ))}
@@ -120,7 +154,8 @@ export default function MediaViewer({ media }: Props) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-xl flex items-center justify-center p-4"
+            className="fixed inset-0 z-50 flex items-center justify-center p-6"
+            style={{ background: 'rgba(0,0,0,0.92)', backdropFilter: 'blur(20px)' }}
             onClick={() => setLightbox(false)}
           >
             <button
@@ -130,13 +165,14 @@ export default function MediaViewer({ media }: Props) {
               <X size={20} className="text-white" />
             </button>
             <motion.img
-              initial={{ scale: 0.9, opacity: 0 }}
+              initial={{ scale: 0.92, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
+              exit={{ scale: 0.92, opacity: 0 }}
               transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               src={item.url}
               alt={item.caption || ''}
-              className="max-w-full max-h-full object-contain rounded-lg"
+              className="max-w-full max-h-full object-contain rounded-xl"
+              style={{ boxShadow: '0 20px 80px rgba(0,0,0,0.8)' }}
               onClick={(e) => e.stopPropagation()}
             />
           </motion.div>
