@@ -10,12 +10,13 @@ export const features: Feature[] = [
   {
     id: '1',
     slug: 'inventory-tracker',
-    title: 'Inventory Tracker',
+    appName: 'StockSync',
+    title: 'StockSync',
     subtitle: 'One live system for shop inventory, purchase orders, and order status — replacing Google Sheets and paper POs entirely.',
     description:
       'The Inventory Tracker is Tech Air\'s central system for managing shop inventory, purchase orders, and order status. It replaced a disconnected set of Google Sheets and a manual paper PO process with a single web application that any employee can use from a desktop or phone. Each person sees only the view they need, and every change — a quantity adjustment, a new PO, a received delivery — updates one shared database in real time.\n\nThe result is that the shop always knows what\'s on hand, the office always knows what\'s been ordered and what\'s arrived, and nobody is chasing information across spreadsheets or paper.',
     date: '2026-06-01',
-    tag: 'New Feature',
+    tag: 'New Application',
     department: 'Inventory',
     highlights: [
       'Purchase Order Management — structured two-panel form with vendor, PO number, job site, line items, and full status workflow from Ordered to Received',

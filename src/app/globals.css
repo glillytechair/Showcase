@@ -62,6 +62,7 @@ body {
   border-radius: 999px;
 }
 
+.tag-New\ Application { background: rgba(0,210,140,0.15); color: #4dffc3; border: 1px solid rgba(0,210,140,0.35); }
 .tag-New\ Feature  { background: rgba(79,142,247,0.15); color: #7eb8ff; border: 1px solid rgba(79,142,247,0.3); }
 .tag-Enhancement   { background: rgba(132,90,223,0.15); color: #c4a0f7; border: 1px solid rgba(132,90,223,0.3); }
 .tag-Fix           { background: rgba(52,199,89,0.15);  color: #6ee09e; border: 1px solid rgba(52,199,89,0.3); }

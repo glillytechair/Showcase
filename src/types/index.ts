@@ -10,12 +10,14 @@ export interface MediaItem {
 export interface Feature {
   id: string
   slug: string
-  title: string
+  appName: string        // e.g. "StockSync" or "Reporting Suite"
+  featureName?: string   // omit when the whole entry IS the app (New Application)
+  title: string          // display title — appName + featureName combined if needed
   subtitle: string
   description: string
-  date: string // ISO string e.g. "2026-06-20"
-  tag: 'New Feature' | 'Enhancement' | 'Fix' | 'Integration' | 'Performance'
+  date: string           // ISO string e.g. "2026-06-20"
+  tag: 'New Application' | 'New Feature' | 'Enhancement' | 'Fix' | 'Integration' | 'Performance'
   media: MediaItem[]
-  highlights?: string[] // bullet points shown on the feature page
-  department?: string   // e.g. "Inventory", "Reporting", "Mobile"
+  highlights?: string[]
+  department?: string
 }

@@ -24,19 +24,21 @@ function formatDate(iso: string) {
 }
 
 const tagColors: Record<string, string> = {
-  'New Feature': 'rgba(79,142,247,0.15)',
-  Enhancement:   'rgba(132,90,223,0.15)',
-  Fix:           'rgba(52,199,89,0.15)',
-  Integration:   'rgba(255,159,10,0.15)',
-  Performance:   'rgba(0,199,190,0.15)',
+  'New Application': 'rgba(0,210,140,0.15)',
+  'New Feature':     'rgba(79,142,247,0.15)',
+  Enhancement:       'rgba(132,90,223,0.15)',
+  Fix:               'rgba(52,199,89,0.15)',
+  Integration:       'rgba(255,159,10,0.15)',
+  Performance:       'rgba(0,199,190,0.15)',
 }
 
 const tagTextColors: Record<string, string> = {
-  'New Feature': '#7eb8ff',
-  Enhancement:   '#c4a0f7',
-  Fix:           '#6ee09e',
-  Integration:   '#ffcf6b',
-  Performance:   '#5ef5ee',
+  'New Application': '#4dffc3',
+  'New Feature':     '#7eb8ff',
+  Enhancement:       '#c4a0f7',
+  Fix:               '#6ee09e',
+  Integration:       '#ffcf6b',
+  Performance:       '#5ef5ee',
 }
 
 export default function FeatureShowcase({ feature, prev, next }: Props) {

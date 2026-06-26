@@ -1,0 +1,85 @@
+'use client'
+
+import { motion } from 'framer-motion'
+import Link from 'next/link'
+import { Feature } from '@/types'
+import { ArrowRight } from 'lucide-react'
+
+interface Props {
+  feature: Feature
+  index: number
+}
+
+const tagClass: Record<string, string> = {
+  'New Application': 'tag-New\\ Application',
+  'New Feature':     'tag-New\\ Feature',
+  Enhancement:       'tag-Enhancement',
+  Fix:               'tag-Fix',
+  Integration:       'tag-Integration',
+  Performance:       'tag-Performance',
+}
+
+function formatDate(iso: string) {
+  return new Date(iso).toLocaleDateString('en-US', {
+    month: 'short', day: 'numeric', year: 'numeric',
+  })
+}
+
+export default function FeatureRow({ feature, index }: Props) {
+  const firstImage = feature.media.find((m) => m.type === 'image')
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <Link href={`/feature/${feature.slug}`} className="block group">
+        <div className="glass glass-hover rounded-xl px-5 py-4 flex items-center gap-5">
+          {/* Thumbnail */}
+          {firstImage && (
+            <div className="flex-shrink-0 w-16 h-12 rounded-lg overflow-hidden bg-[rgba(255,255,255,0.03)] border border-[var(--border)]">
+              <img
+                src={firstImage.url}
+                alt=""
+                className="w-full h-full object-cover opacity-70 group-hover:opacity-90 transition-opacity duration-300"
+              />
+            </div>
+          )}
+
+          {/* App / Feature labels */}
+          <div className="flex-1 min-w-0">
+            <div className="flex items-baseline gap-2 min-w-0">
+              <span className="text-sm font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors duration-200 truncate">
+                {feature.appName}
+              </span>
+              {feature.featureName && (
+                <>
+                  <span className="text-[var(--text-secondary)] text-xs flex-shrink-0">·</span>
+                  <span className="text-xs text-[var(--text-secondary)] truncate">{feature.featureName}</span>
+                </>
+              )}
+            </div>
+            <p className="text-xs text-[var(--text-secondary)] mt-0.5 truncate">{feature.subtitle}</p>
+          </div>
+
+          {/* Tag */}
+          <span className={`tag-pill flex-shrink-0 hidden sm:inline ${tagClass[feature.tag] || ''}`}>
+            {feature.tag}
+          </span>
+
+          {/* Date */}
+          <time className="text-[11px] text-[var(--text-secondary)] flex-shrink-0 hidden md:block tabular-nums">
+            {formatDate(feature.date)}
+          </time>
+
+          {/* Arrow */}
+          <ArrowRight
+            size={14}
+            className="flex-shrink-0 text-[var(--text-secondary)] group-hover:text-[var(--accent)] group-hover:translate-x-1 transition-all duration-200"
+          />
+        </div>
+      </Link>
+    </motion.div>
+  )
+}

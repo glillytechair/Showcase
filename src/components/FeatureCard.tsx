@@ -11,11 +11,12 @@ interface Props {
 }
 
 const tagClass: Record<string, string> = {
-  'New Feature': 'tag-New\\ Feature',
-  Enhancement:   'tag-Enhancement',
-  Fix:           'tag-Fix',
-  Integration:   'tag-Integration',
-  Performance:   'tag-Performance',
+  'New Application': 'tag-New\\ Application',
+  'New Feature':     'tag-New\\ Feature',
+  Enhancement:       'tag-Enhancement',
+  Fix:               'tag-Fix',
+  Integration:       'tag-Integration',
+  Performance:       'tag-Performance',
 }
 
 function formatDate(iso: string) {
@@ -98,9 +99,12 @@ export default function FeatureCard({ feature, index }: Props) {
 
             <div>
               <h2 className="text-base font-semibold text-[var(--text-primary)] leading-snug group-hover:text-[var(--accent)] transition-colors duration-200">
-                {feature.title}
+                {feature.appName}
               </h2>
-              <p className="mt-1 text-sm text-[var(--text-secondary)] leading-relaxed line-clamp-2">
+              {feature.featureName && (
+                <p className="text-xs text-[var(--text-secondary)] mt-0.5">{feature.featureName}</p>
+              )}
+              <p className="mt-1.5 text-sm text-[var(--text-secondary)] leading-relaxed line-clamp-2">
                 {feature.subtitle}
               </p>
             </div>
