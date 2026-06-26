@@ -101,24 +101,19 @@ export default function MediaViewer({ media }: Props) {
           </>
         )}
 
-        {/* Caption bar */}
-        {item.caption && (
-          <div
-            className="absolute bottom-0 left-0 right-0 px-5 py-3 flex items-center justify-between"
-            style={{
-              background: 'linear-gradient(to top, rgba(0,0,0,0.7), transparent)',
-              borderTop: '1px solid rgba(255,255,255,0.06)',
-            }}
-          >
-            <p className="text-xs text-white/60">{item.caption}</p>
-            {media.length > 1 && (
-              <span className="text-[10px] text-white/40 tabular-nums">
-                {current + 1} / {media.length}
-              </span>
-            )}
-          </div>
-        )}
       </div>
+
+      {/* Caption — sits below the image container, never overlaid */}
+      {item.caption && (
+        <div className="flex items-center justify-between px-1 pt-2.5">
+          <p className="text-xs text-[var(--text-secondary)]">{item.caption}</p>
+          {media.length > 1 && (
+            <span className="text-[10px] text-[var(--text-secondary)] tabular-nums opacity-60">
+              {current + 1} / {media.length}
+            </span>
+          )}
+        </div>
+      )}
 
       {/* Thumbnail strip */}
       {media.length > 1 && (
