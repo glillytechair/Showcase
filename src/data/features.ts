@@ -8,6 +8,40 @@ import { Feature } from '@/types'
 
 export const features: Feature[] = [
   {
+    id: '5',
+    slug: 'quotegen',
+    appName: 'QuoteGen',
+    title: 'QuoteGen',
+    subtitle: 'An in-house quoting platform that turns the scope of work into a clean, branded quote PDF — fast, consistent, and accurate across Duct/HVAC, Fab, and Steel teams.',
+    description:
+      "QuoteGen is our in-house quoting platform for the Duct/HVAC, Fab, and Steel teams. It writes the scope of work — the part of every bid that defines exactly what we're furnishing and installing — and turns it into a clean, branded Tech Air PDF that goes straight to the customer. It doesn't set prices; it makes the scope fast, consistent, and accurate, so estimators spend their time on the bid instead of formatting and rewriting.\n\nEach team gets a tailored scope builder so the fields and terms match how that team actually quotes. An estimator builds the scope from reusable building blocks — ductwork, liner, clarifications, terms & conditions, installation notes — and the system assembles it into a professional PDF with consistent styling every time.\n\nAround the scope builder, QuoteGen handles the whole quote lifecycle: a central Quotes list with search, filters, and award/status tracking; Companies and contacts management with multiple contacts per company; a quote viewer, calendar, and map view; and one-click Download PDF, Print, and Send Quote Email using saved, fill-in-the-blank templates. Tokens like {Recipient Name}, {Project Name}, {Quote Number}, and {Bid ID} are filled automatically.\n\nThe biggest win is reuse. Instead of rebuilding a scope from a blank page or an old Word file, estimators load saved defaults — standard clarifications, terms, and line items — with a click. What used to be copy-paste-and-pray from a previous quote is now structured, instant, and current.\n\nSending is just as fast. Quote PDFs generate from the same source as the on-screen preview, and the email goes out with the right template, subject, CC, and attachment already populated. No exporting, renaming, re-attaching, or rewriting the cover note for every send.\n\nAnd because it's all in one place — quotes, companies, statuses, history — nobody is hunting through folders, inboxes, or a shared drive to find the latest version of a bid.",
+    date: '2026-04-21',
+    tag: 'New Application',
+    department: 'Estimating',
+    highlights: [
+      'Tailored scope builders for Duct/HVAC, Fab, and Steel teams with fields and terms that match how each team quotes',
+      'Reusable building blocks for ductwork, liner, clarifications, terms & conditions, and installation notes',
+      'Load All Defaults — pulls in a team\'s standard language in one click instead of copying from old quotes',
+      'Central Quotes list with search, filters, and award/status tracking',
+      'Companies and contacts management with multiple contacts per company',
+      'Quote viewer, calendar, and map view for different ways to see and manage bids',
+      'One-click Download PDF, Print, and Send Quote Email',
+      'Saved email templates with auto-filled tokens — {Recipient Name}, {Project Name}, {Quote Number}, {Bid ID}, and more',
+      'PDF generated from the same source as the on-screen preview, so what the estimator approves is exactly what the customer sees',
+      'Consistent Tech Air branding and layout across every Duct, Fab, and Steel quote',
+      'Smart contact and company resolution that reduces duplicate or orphaned records',
+      'Flexible date fields that hold real dates or values like "TBD" / "Upon Request" without breaking',
+      'Built-in changelog and in-app feedback loop so it keeps getting tighter to how the teams actually work',
+    ],
+    media: [
+      { type: 'image', url: '/quotegen1.png', caption: 'QuoteGen — scope builder overview' },
+      { type: 'image', url: '/quotegen2.png', caption: 'Quotes list with search, filters, and status tracking' },
+      { type: 'image', url: '/quotegen3.png', caption: 'Company and contacts management' },
+      { type: 'image', url: '/quotegen4.png', caption: 'Branded Tech Air quote PDF preview' },
+      { type: 'image', url: '/quotegen5.png', caption: 'Send Quote Email with saved templates and auto-filled tokens' },
+    ],
+  },
+  {
     id: '4',
     slug: 'dailyplan',
     appName: 'DailyPlan',
