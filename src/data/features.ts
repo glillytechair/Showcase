@@ -8,6 +8,63 @@ import { Feature } from '@/types'
 
 export const features: Feature[] = [
   {
+    id: '2',
+    slug: 'cadash',
+    appName: 'CADash',
+    title: 'CADash',
+    subtitle: 'A live window into the CAD team\'s workload, progress, and priorities — visible to drafters, managers, and the field at the same time.',
+    description:
+      'CADash is a dedicated branch of the DailyPlan app built for the CAD team. When a CAD user or CAD manager logs in, the app recognizes their role and takes them straight to their own dashboard — they never have to dig through the field-facing Daily Plan to find their work.\n\nIn one screen, anyone with access can see what every drafter is working on, how far along it is, what\'s urgent, and what\'s stuck. It turns the CAD pipeline from something that lives in people\'s heads and inboxes into a single shared, always-current picture.',
+    date: '2026-06-20',
+    tag: 'New Application',
+    department: 'CAD',
+    highlights: [
+      'Live dashboard — refreshes automatically and re-checks the moment you return to the tab, so everyone is always looking at the same numbers',
+      'Four stat cards — Active Jobs, Avg. Progress, Rush Jobs, and Available Drafters give a top-line read at a glance',
+      'Current Team Status table — every live assignment with team member, job, priority, area/task, due date, percent-complete bar, and Drive/Revit links',
+      'Filter by priority or status — instantly answer "show me everything RUSH" or "what\'s blocked right now"',
+      'Blocked flag — anything stuck is highlighted in red and counted in a banner so problems surface immediately instead of quietly eating days',
+      'Priority levels — RUSH, HIGH, NORMAL, LOW set in the open so the whole team agrees on what comes first',
+      'Direct file links — each assignment carries links to its Google Drive folder and Revit file, no hunting for the latest version',
+      'Team roster — manage drafter names, emails, availability, and color/initials avatars',
+      'Role-based access — CAD managers get team-workload, queue-health, and attention metrics; drafters and field users see what\'s relevant to them',
+      'Manager view — higher-level read for balancing load across the team and spotting where help is needed',
+      'Scaffolded for expansion — Jobs & Queue, Requests from the field, Drawing library, and CAD Standards already framed in',
+    ],
+    media: [
+      {
+        type: 'image',
+        url: '/Cad1.png',
+        caption: 'CADash dashboard — live stat cards and team status',
+      },
+      {
+        type: 'image',
+        url: '/cad2.png',
+        caption: 'Current Team Status table with priority and progress',
+      },
+      {
+        type: 'image',
+        url: '/cad3.png',
+        caption: 'Assignment detail with Drive and Revit file links',
+      },
+      {
+        type: 'image',
+        url: '/cad4.png',
+        caption: 'Blocked items flagged in real time',
+      },
+      {
+        type: 'image',
+        url: '/cad5.png',
+        caption: 'Team roster with availability and avatars',
+      },
+      {
+        type: 'image',
+        url: '/cad6.png',
+        caption: 'Manager view — workload balance and queue health',
+      },
+    ],
+  },
+  {
     id: '1',
     slug: 'inventory-tracker',
     appName: 'StockSync',
