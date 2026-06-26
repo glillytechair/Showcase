@@ -8,6 +8,54 @@ import { Feature } from '@/types'
 
 export const features: Feature[] = [
   {
+    id: '3',
+    slug: 'report-reader',
+    appName: 'QuoteGen',
+    featureName: 'Report Reader',
+    title: 'QuoteGen — Report Reader',
+    subtitle: 'Reads a Trimble Recap Report PDF and writes material weights, liner, and round-duct lengths directly into the Excel estimate — eliminating the manual read-add-retype loop.',
+    description:
+      'For every bid, estimators open the Recap Report, find each material total, manually sum liner sq ft and round footage per diameter across pressure-class sections, then navigate to each cell in the estimate and type every number in. The summing and retyping is where mistakes creep in — a fat-fingered 605 vs 650, or a diameter total that forgot the 4″ WG section.\n\nReport Reader replaces that entire loop with three steps: drop the PDF, review what it found, drop the Excel and click Write. Zero numbers typed, zero manual addition — and the same parsed numbers you reviewed on screen are the exact numbers written.',
+    date: '2026-06-25',
+    tag: 'New Feature',
+    department: 'Estimating',
+    highlights: [
+      'Drop the PDF — drag any Recap Report onto the page and it parses automatically, regardless of page length',
+      'Review before writing — shows every value it found (material LBS, liner sq ft, round spiral by diameter) so you eyeball it first',
+      'Write to Excel — drag in the .xlsx or pick from Google Drive; numbers land in the right cells, everything else stays untouched',
+      'Writes 5 material/liner cells: Galvanized rect (B6), Aluminum (B18), Black iron (B60), Stainless (B62), Duct Liner sq ft (B31)',
+      'Writes round spiral footage per diameter across all WG sections into Spiral Calculator B7–B34',
+      'Sums by dimension across pressure classes — 8″ in 2″ WG and 4″ WG sections become one 8″ total automatically',
+      'Ignores Double-Wall sections so roll-up rows are never mis-read as phantom sizes',
+      'Page-title driven, not page-number driven — works regardless of report length or structure',
+      'In-place save on Chrome/Edge — writes straight back to the .xlsx, no stray copy files',
+      'Anything not found in the report is left untouched, never zeroed out',
+      'Net savings: ~100+ keystrokes and several minutes of cross-section adding eliminated per estimate, transcription errors reduced to zero',
+    ],
+    media: [
+      {
+        type: 'image',
+        url: '/reportparse1.png',
+        caption: 'Report Reader — PDF drop and parse view',
+      },
+      {
+        type: 'image',
+        url: '/reportparse2.png',
+        caption: 'Parsed values review — material weights, liner, and round duct by diameter',
+      },
+      {
+        type: 'image',
+        url: '/reportparse3.png',
+        caption: 'Excel write — numbers land in the correct cells',
+      },
+      {
+        type: 'image',
+        url: '/reportparse4.png',
+        caption: 'Cell mapping — from report section to estimate workbook',
+      },
+    ],
+  },
+  {
     id: '2',
     slug: 'cadash',
     appName: 'CADash',
