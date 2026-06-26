@@ -91,35 +91,6 @@ body {
 
 .animate-pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }
 
-/* Horizontal scan line sweeping down the background */
-@keyframes scan-h {
-  0%   { transform: translateY(0);     opacity: 0; }
-  4%   { opacity: 1; }
-  96%  { opacity: 1; }
-  100% { transform: translateY(100vh); opacity: 0; }
-}
-
-.scan-line {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(79,142,247,0.0) 5%,
-    rgba(79,142,247,0.6) 20%,
-    rgba(79,142,247,1)   50%,
-    rgba(79,142,247,0.6) 80%,
-    rgba(79,142,247,0.0) 95%,
-    transparent 100%
-  );
-  box-shadow: 0 0 10px 2px rgba(79,142,247,0.35);
-  animation: scan-h 14s linear 3s infinite;
-  pointer-events: none;
-}
-
 /* Card shimmer sweep on hover */
 @keyframes shimmer-pass {
   0%   { transform: translateX(-160%) skewX(-12deg); }
@@ -160,6 +131,32 @@ body {
   background: #4dffc3;
   animation: online-pulse 2.2s ease-out infinite;
   flex-shrink: 0;
+}
+
+/* Hero title — shifting gradient with glow */
+@keyframes gradient-flow {
+  0%   { background-position: 0%   50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0%   50%; }
+}
+
+.hero-title {
+  background: linear-gradient(
+    90deg,
+    #cfe0ff  0%,
+    #7eb8ff  18%,
+    #ffffff  36%,
+    #a8daff  52%,
+    #5ef5ee  68%,
+    #ffffff  82%,
+    #cfe0ff  100%
+  );
+  background-size: 280% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-flow 9s linear infinite;
+  filter: drop-shadow(0 0 42px rgba(79,142,247,0.52));
 }
 
 /* Terminal / HUD monospace text */

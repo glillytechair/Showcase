@@ -27,75 +27,77 @@ export default function HomePage() {
       <div className="relative z-10 max-w-6xl mx-auto px-6 pb-24">
         {/* Header */}
         <header className="pt-20 pb-14 text-center">
-          <div className="inline-block glass rounded-2xl px-8 py-10 md:px-12 md:py-12 border border-[rgba(79,142,247,0.12)] shadow-[0_24px_80px_rgba(0,0,0,0.35)]">
+          <div className="relative inline-block glass rounded-3xl px-10 py-12 md:px-16 md:py-16 border border-[rgba(79,142,247,0.15)] shadow-[0_24px_100px_rgba(0,0,0,0.5),0_0_0_1px_rgba(79,142,247,0.08),0_0_120px_rgba(79,142,247,0.08)]">
+
+            {/* HUD corner brackets */}
+            <div className="absolute top-4 left-4 w-5 h-5 border-t-2 border-l-2 border-[rgba(79,142,247,0.5)]" />
+            <div className="absolute top-4 right-4 w-5 h-5 border-t-2 border-r-2 border-[rgba(79,142,247,0.5)]" />
+            <div className="absolute bottom-4 left-4 w-5 h-5 border-b-2 border-l-2 border-[rgba(79,142,247,0.5)]" />
+            <div className="absolute bottom-4 right-4 w-5 h-5 border-b-2 border-r-2 border-[rgba(79,142,247,0.5)]" />
+
+            {/* Breathing glow inside card */}
+            <motion.div
+              className="absolute inset-0 rounded-3xl pointer-events-none overflow-hidden"
+              aria-hidden="true"
+            >
+              <motion.div
+                className="absolute inset-x-0 top-0 h-3/4"
+                style={{ background: 'radial-gradient(ellipse 75% 60% at 50% -10%, rgba(79,142,247,0.16) 0%, transparent 65%)' }}
+                animate={{ opacity: [0.55, 1, 0.55] }}
+                transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
+              />
+            </motion.div>
+
+            {/* Badge */}
             <motion.div
               initial={{ opacity: 0, y: -12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[rgba(79,142,247,0.3)] bg-[rgba(79,142,247,0.08)] mb-6"
+              className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-[rgba(79,142,247,0.4)] bg-[rgba(79,142,247,0.1)] mb-7"
+              style={{ boxShadow: '0 0 28px rgba(79,142,247,0.22), inset 0 0 14px rgba(79,142,247,0.06)' }}
             >
-              <Zap size={12} className="text-[var(--accent)] animate-pulse-glow" />
+              <Zap size={13} className="text-[var(--accent)] animate-pulse-glow" />
               <span className="text-[11px] font-semibold text-[var(--accent)] uppercase tracking-widest">
                 Tech Department
               </span>
             </motion.div>
 
+            {/* Title — shifting gradient */}
             <motion.h1
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="text-5xl md:text-6xl font-bold tracking-tight text-glow"
-              style={{ letterSpacing: '-0.03em' }}
+              className="hero-title block text-5xl md:text-7xl font-bold leading-none"
+              style={{ letterSpacing: '-0.04em' }}
             >
               What we&apos;ve built
             </motion.h1>
 
+            {/* Subtitle */}
             <motion.p
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-5 text-base md:text-lg text-[var(--text-secondary)] md:whitespace-nowrap text-balance"
+              className="mt-6 text-base md:text-lg text-[var(--text-secondary)] md:whitespace-nowrap"
             >
               The latest features, enhancements, and improvements from our engineering team.
             </motion.p>
 
+            {/* Decorated divider */}
             <motion.div
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ duration: 0.8, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
-              className="line-accent w-32 mx-auto mt-8"
-            />
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.35 }}
+              className="flex items-center justify-center gap-4 mt-9"
+            >
+              <div className="line-accent w-20" />
+              <span className="terminal text-[9px] text-[var(--text-secondary)] tracking-[0.18em] uppercase opacity-55">
+                New England Tech Air · Engineering
+              </span>
+              <div className="line-accent w-20" />
+            </motion.div>
           </div>
         </header>
-
-        {/* Stats bar */}
-        <motion.div
-          initial={{ opacity: 0, y: 6 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.38 }}
-          className="flex items-center justify-center gap-6 mb-8 -mt-2"
-        >
-          {[
-            { label: 'UPDATES', value: features.length },
-            { label: 'APPS', value: new Set(features.map(f => f.appName)).size },
-            { label: 'DEPTS', value: new Set(features.filter(f => f.department).map(f => f.department)).size },
-          ].map(({ label, value }, i) => (
-            <div key={label} className="flex items-center gap-6">
-              {i > 0 && <div className="w-px h-5 bg-[var(--border)]" />}
-              <div className="text-center">
-                <div className="text-xl font-bold text-[var(--accent)] terminal leading-none">{value}</div>
-                <div className="text-[9px] text-[var(--text-secondary)] terminal tracking-widest mt-0.5 uppercase">{label}</div>
-              </div>
-            </div>
-          ))}
-          <div className="flex items-center gap-6">
-            <div className="w-px h-5 bg-[var(--border)]" />
-            <div className="flex items-center gap-2">
-              <div className="online-dot" />
-              <span className="text-[9px] terminal tracking-widest uppercase" style={{ color: '#4dffc3' }}>Live</span>
-            </div>
-          </div>
-        </motion.div>
 
         {/* Controls */}
         <motion.div

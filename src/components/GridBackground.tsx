@@ -68,8 +68,6 @@ export default function GridBackground() {
         transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
       />
 
-      {/* Scan line sweeping downward */}
-      <div className="scan-line" />
     </div>
   )
 }
