@@ -167,14 +167,6 @@ export default function HomePage() {
           )}
         </AnimatePresence>
 
-        <motion.footer
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          className="mt-20 text-center text-[11px] text-[var(--text-secondary)]"
-        >
-          Built by the Tech Department · Updates are live on deploy
-        </motion.footer>
       </div>
     </div>
   )
