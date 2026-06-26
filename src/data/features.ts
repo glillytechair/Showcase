@@ -1,82 +1,61 @@
 import { Feature } from '@/types'
 
 // ─── HOW TO ADD A NEW FEATURE ────────────────────────────────────────────────
-// 1. Upload your image/video to Supabase Storage → get the public URL
-// 2. Copy one of the entries below and update all fields
-// 3. Commit & push — Vercel will auto-deploy within ~30 seconds
+// 1. Drop images/videos into public/media/
+// 2. Copy an entry below and update all fields
+// 3. git push → Vercel auto-deploys in ~30 seconds
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const features: Feature[] = [
   {
     id: '1',
-    slug: 'real-time-inventory-sync',
-    title: 'Real-Time Inventory Sync',
-    subtitle: 'Live updates across all locations — zero refresh required.',
+    slug: 'inventory-tracker',
+    title: 'Inventory Tracker',
+    subtitle: 'One live system for shop inventory, purchase orders, and order status — replacing Google Sheets and paper POs entirely.',
     description:
-      'Our inventory system now pushes live updates the moment a stock change occurs anywhere in the network. No more stale counts, no manual refreshes. Every terminal sees the same truth at the same time.',
-    date: '2026-06-20',
+      'The Inventory Tracker is Tech Air\'s central system for managing shop inventory, purchase orders, and order status. It replaced a disconnected set of Google Sheets and a manual paper PO process with a single web application that any employee can use from a desktop or phone. Each person sees only the view they need, and every change — a quantity adjustment, a new PO, a received delivery — updates one shared database in real time.\n\nThe result is that the shop always knows what\'s on hand, the office always knows what\'s been ordered and what\'s arrived, and nobody is chasing information across spreadsheets or paper.',
+    date: '2026-06-01',
     tag: 'New Feature',
     department: 'Inventory',
     highlights: [
-      'Sub-second sync across all warehouse locations',
-      'Conflict resolution built-in for simultaneous edits',
-      'Offline-first with automatic reconciliation on reconnect',
-      'Works across mobile, desktop, and kiosk terminals',
+      'Purchase Order Management — structured two-panel form with vendor, PO number, job site, line items, and full status workflow from Ordered to Received',
+      'One-Click PO Printing — formatted PDF matching Tech Air\'s Dynamics layout with vendor info auto-filled from the vendor profile',
+      'Automatic Google Drive Filing — received orders generate a PDF and file it to Drive by vendor folder automatically',
+      'Inventory by Location — every item tracked by quantity, minimum, unit of measure, vendor, and shop area with automatic low-stock flagging',
+      'Backorder Tracking — per-item backorder flags and a dedicated tab showing everything outstanding across all orders',
+      'Partial Receiving — shop checks off only what arrived and notifies purchasing without closing an incomplete order',
+      'Packing Slip Photos — shop staff photograph the packing slip on their phone; image attaches automatically to the email sent to purchasing',
+      'Role-Based Access — admin, office, and shop roles with an admin panel for adding users without IT involvement',
+      'Email Notifications — automatic email to purchasing on every received or partial delivery with items, vendor, PO, and packing slip photo',
+      'Built-in Work Flow Guide — step-by-step onboarding on the Manage screen covering orders, receiving, backorders, and vendors',
+      'Full Audit Trail — every quantity change logged with timestamp and user',
+      'Vendor Directory — contact names, addresses, payment terms, and pricing stored once and auto-filled everywhere',
     ],
     media: [
       {
         type: 'image',
-        // Replace this URL with your Supabase public URL
-        url: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1600&q=80',
-        caption: 'Live sync dashboard showing multi-location updates',
+        url: '/Stocksync1.png',
+        caption: 'Inventory Tracker — main dashboard',
       },
-    ],
-  },
-  {
-    id: '2',
-    slug: 'smart-reporting-dashboard',
-    title: 'Smart Reporting Dashboard',
-    subtitle: 'Every KPI you care about — one screen, zero noise.',
-    description:
-      'The new reporting dashboard adapts to your role. Managers see margin and velocity. Operations see stock health. Executives see the top-line. All from the same URL with no configuration needed.',
-    date: '2026-06-10',
-    tag: 'Enhancement',
-    department: 'Reporting',
-    highlights: [
-      'Role-aware views auto-configure on login',
-      'Export to PDF, CSV, or push to Slack in one click',
-      'Drill-down from summary to transaction-level detail',
-      '30-day, 90-day, and YTD comparison built-in',
-    ],
-    media: [
       {
         type: 'image',
-        url: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1600&q=80',
-        caption: 'Executive overview with drill-down capability',
+        url: '/Stocksync2.png',
+        caption: 'Purchase order management panel',
       },
-    ],
-  },
-  {
-    id: '3',
-    slug: 'mobile-barcode-scanner',
-    title: 'Mobile Barcode Scanner',
-    subtitle: 'Your phone is now a warehouse tool.',
-    description:
-      'Native camera integration turns any iOS or Android device into a full barcode scanner. Scan items to pull inventory, log receiving, or trigger a transfer — no additional hardware required.',
-    date: '2026-05-28',
-    tag: 'New Feature',
-    department: 'Mobile',
-    highlights: [
-      'Works with standard camera — no Bluetooth scanner needed',
-      'Supports UPC, QR, Code 128, and DataMatrix formats',
-      'Haptic feedback confirms successful scans',
-      'Batch scan mode for receiving 50+ items at once',
-    ],
-    media: [
       {
         type: 'image',
-        url: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=1600&q=80',
-        caption: 'Mobile scanner in action on warehouse floor',
+        url: '/Stocksync3.png',
+        caption: 'Shop floor mobile receiving view',
+      },
+      {
+        type: 'image',
+        url: '/Stocksync4.png',
+        caption: 'Inventory by location with low-stock alerts',
+      },
+      {
+        type: 'image',
+        url: '/Stocksync5.png',
+        caption: 'Vendor directory and PO print preview',
       },
     ],
   },
