@@ -3,22 +3,28 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { features } from '@/data/features'
+import { upcomingIdeas } from '@/data/upcoming'
 import FeatureCard from '@/components/FeatureCard'
 import FeatureRow from '@/components/FeatureRow'
+import UpcomingRow from '@/components/UpcomingRow'
 import GridBackground from '@/components/GridBackground'
 import { Zap, LayoutGrid, List, ArrowUpDown } from 'lucide-react'
 
 type SortOrder = 'newest' | 'oldest'
 type ViewMode  = 'grid' | 'list'
+type Tab       = 'released' | 'upcoming'
 
 export default function HomePage() {
   const [sort, setSort]     = useState<SortOrder>('newest')
   const [view, setView]     = useState<ViewMode>('list')
+  const [tab, setTab]       = useState<Tab>('released')
 
   const sorted = [...features].sort((a, b) => {
     const delta = new Date(b.date).getTime() - new Date(a.date).getTime()
     return sort === 'newest' ? delta : -delta
   })
+
+  const isReleased = tab === 'released'
 
   return (
     <div className="relative min-h-screen">
@@ -64,23 +70,27 @@ export default function HomePage() {
 
             {/* Title — shifting gradient */}
             <motion.h1
+              key={tab}
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
               className="hero-title block text-5xl md:text-7xl font-bold leading-none"
               style={{ letterSpacing: '-0.04em' }}
             >
-              What we&apos;ve built
+              {isReleased ? "What we've built" : "What's coming"}
             </motion.h1>
 
             {/* Subtitle */}
             <motion.p
+              key={`${tab}-subtitle`}
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
               className="mt-6 text-base md:text-lg text-[var(--text-secondary)] md:whitespace-nowrap"
             >
-              The latest features, enhancements, and improvements from our engineering team.
+              {isReleased
+                ? 'The latest features, enhancements, and improvements from our engineering team.'
+                : 'Ideas on the roadmap for DailyPlan and QuoteGen — new features and upgrades in progress.'}
             </motion.p>
 
             {/* Decorated divider */}
@@ -100,68 +110,113 @@ export default function HomePage() {
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.3 }}
-          className="flex items-center justify-between mb-8"
+          className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8"
         >
-          {/* Sort */}
-          <button
-            onClick={() => setSort(s => s === 'newest' ? 'oldest' : 'newest')}
-            className="flex items-center gap-2 text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors glass rounded-lg px-3 py-2"
-          >
-            <ArrowUpDown size={13} />
-            {sort === 'newest' ? 'Newest first' : 'Oldest first'}
-          </button>
+          <div className="flex items-center gap-2">
+            {/* Tab switcher */}
+            <div className="flex items-center gap-1 glass rounded-lg p-1">
+              <button
+                onClick={() => setTab('released')}
+                className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors duration-150 ${
+                  tab === 'released'
+                    ? 'bg-[var(--accent)] text-white'
+                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                }`}
+              >
+                Released
+              </button>
+              <button
+                onClick={() => setTab('upcoming')}
+                className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors duration-150 ${
+                  tab === 'upcoming'
+                    ? 'bg-[var(--accent)] text-white'
+                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                }`}
+              >
+                Upcoming
+              </button>
+            </div>
 
-          {/* View toggle */}
-          <div className="flex items-center gap-1 glass rounded-lg p-1">
-            <button
-              onClick={() => setView('grid')}
-              className={`p-1.5 rounded-md transition-colors duration-150 ${
-                view === 'grid'
-                  ? 'bg-[var(--accent)] text-white'
-                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-              }`}
-            >
-              <LayoutGrid size={14} />
-            </button>
-            <button
-              onClick={() => setView('list')}
-              className={`p-1.5 rounded-md transition-colors duration-150 ${
-                view === 'list'
-                  ? 'bg-[var(--accent)] text-white'
-                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-              }`}
-            >
-              <List size={14} />
-            </button>
+            {/* Released-only sort */}
+            {isReleased && (
+              <button
+                onClick={() => setSort(s => s === 'newest' ? 'oldest' : 'newest')}
+                className="flex items-center gap-2 text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors glass rounded-lg px-3 py-2"
+              >
+                <ArrowUpDown size={13} />
+                {sort === 'newest' ? 'Newest first' : 'Oldest first'}
+              </button>
+            )}
           </div>
+
+          {/* Released-only view toggle */}
+          {isReleased && (
+            <div className="flex items-center gap-1 glass rounded-lg p-1">
+              <button
+                onClick={() => setView('grid')}
+                className={`p-1.5 rounded-md transition-colors duration-150 ${
+                  view === 'grid'
+                    ? 'bg-[var(--accent)] text-white'
+                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                }`}
+              >
+                <LayoutGrid size={14} />
+              </button>
+              <button
+                onClick={() => setView('list')}
+                className={`p-1.5 rounded-md transition-colors duration-150 ${
+                  view === 'list'
+                    ? 'bg-[var(--accent)] text-white'
+                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                }`}
+              >
+                <List size={14} />
+              </button>
+            </div>
+          )}
         </motion.div>
 
-        {/* Feature list */}
+        {/* Content */}
         <AnimatePresence mode="wait">
-          {view === 'grid' ? (
-            <motion.div
-              key="grid"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
-            >
-              {sorted.map((feature, i) => (
-                <FeatureCard key={feature.id} feature={feature} index={i} />
-              ))}
-            </motion.div>
+          {isReleased ? (
+            view === 'grid' ? (
+              <motion.div
+                key="grid"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
+              >
+                {sorted.map((feature, i) => (
+                  <FeatureCard key={feature.id} feature={feature} index={i} />
+                ))}
+              </motion.div>
+            ) : (
+              <motion.div
+                key="list"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="flex flex-col gap-3"
+              >
+                {sorted.map((feature, i) => (
+                  <FeatureRow key={feature.id} feature={feature} index={i} />
+                ))}
+              </motion.div>
+            )
           ) : (
             <motion.div
-              key="list"
+              key="upcoming"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
               className="flex flex-col gap-3"
             >
-              {sorted.map((feature, i) => (
-                <FeatureRow key={feature.id} feature={feature} index={i} />
+              {upcomingIdeas.map((idea, i) => (
+                <UpcomingRow key={idea.id} idea={idea} index={i} />
               ))}
             </motion.div>
           )}

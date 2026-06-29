@@ -11,8 +11,8 @@ interface Props {
 }
 
 const tagClass: Record<string, string> = {
-  'New Application': 'tag-New\\ Application',
-  'New Feature':     'tag-New\\ Feature',
+  'New Application': 'tag-NewApplication',
+  'New Feature':     'tag-NewFeature',
   Enhancement:       'tag-Enhancement',
   Fix:               'tag-Fix',
   Integration:       'tag-Integration',

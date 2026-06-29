@@ -21,3 +21,18 @@ export interface Feature {
   highlights?: string[]
   department?: string
 }
+
+export type UpcomingTag = 'New App' | 'New Feature' | 'Feature Update'
+
+export interface UpcomingIdea {
+  id: string
+  slug: string
+  appName: string
+  title: string
+  subtitle: string
+  description: string
+  date: string
+  tag: UpcomingTag
+  complexity?: string
+  highlights?: string[]
+}

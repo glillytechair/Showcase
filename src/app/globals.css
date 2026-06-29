@@ -68,12 +68,16 @@ body {
   border-radius: 999px;
 }
 
-.tag-New\ Application { background: rgba(0,210,140,0.15); color: #4dffc3; border: 1px solid rgba(0,210,140,0.35); }
-.tag-New\ Feature  { background: rgba(79,142,247,0.15); color: #7eb8ff; border: 1px solid rgba(79,142,247,0.3); }
+.tag-NewApplication { background: rgba(0,210,140,0.15); color: #4dffc3; border: 1px solid rgba(0,210,140,0.35); }
+.tag-NewFeature  { background: rgba(79,142,247,0.15); color: #7eb8ff; border: 1px solid rgba(79,142,247,0.3); }
 .tag-Enhancement   { background: rgba(132,90,223,0.15); color: #c4a0f7; border: 1px solid rgba(132,90,223,0.3); }
 .tag-Fix           { background: rgba(52,199,89,0.15);  color: #6ee09e; border: 1px solid rgba(52,199,89,0.3); }
 .tag-Integration   { background: rgba(255,159,10,0.15); color: #ffcf6b; border: 1px solid rgba(255,159,10,0.3); }
 .tag-Performance   { background: rgba(0,199,190,0.15);  color: #5ef5ee; border: 1px solid rgba(0,199,190,0.3); }
+
+/* Upcoming idea tags */
+.tag-NewApp      { background: rgba(0,210,140,0.15); color: #4dffc3; border: 1px solid rgba(0,210,140,0.35); }
+.tag-FeatureUpdate { background: rgba(245,158,11,0.15); color: #fcd34d; border: 1px solid rgba(245,158,11,0.35); }
 
 .line-accent {
   height: 1px;
