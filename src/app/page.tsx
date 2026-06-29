@@ -1,30 +1,87 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { features } from '@/data/features'
 import { upcomingIdeas } from '@/data/upcoming'
+import { UpcomingIdea } from '@/types'
 import FeatureCard from '@/components/FeatureCard'
 import FeatureRow from '@/components/FeatureRow'
 import UpcomingRow from '@/components/UpcomingRow'
 import GridBackground from '@/components/GridBackground'
-import { Zap, LayoutGrid, List, ArrowUpDown } from 'lucide-react'
+import { Zap, LayoutGrid, List, ArrowUpDown, SlidersHorizontal } from 'lucide-react'
 
 type SortOrder = 'newest' | 'oldest'
 type ViewMode  = 'grid' | 'list'
 type Tab       = 'released' | 'upcoming'
+
+type UpcomingAppFilter = 'all' | 'DailyPlan' | 'QuoteGen'
+type UpcomingTagFilter = 'all' | 'New Feature' | 'Feature Update' | 'New App'
+type UpcomingSort = 'default' | 'complexity-desc' | 'complexity-asc' | 'alpha'
+
+function complexityScore(idea: UpcomingIdea): number {
+  switch (idea.complexity) {
+    case 'High': return 3
+    case 'Medium-High': return 2.5
+    case 'Medium': return 2
+    case 'Low-Medium': return 1.5
+    case 'Low': return 1
+    default: return 0
+  }
+}
 
 export default function HomePage() {
   const [sort, setSort]     = useState<SortOrder>('newest')
   const [view, setView]     = useState<ViewMode>('list')
   const [tab, setTab]       = useState<Tab>('released')
 
+  const [appFilter, setAppFilter] = useState<UpcomingAppFilter>('all')
+  const [tagFilter, setTagFilter] = useState<UpcomingTagFilter>('all')
+  const [upcomingSort, setUpcomingSort] = useState<UpcomingSort>('default')
+
   const sorted = [...features].sort((a, b) => {
     const delta = new Date(b.date).getTime() - new Date(a.date).getTime()
     return sort === 'newest' ? delta : -delta
   })
 
+  const filteredUpcoming = useMemo(() => {
+    let list = upcomingIdeas.filter((idea) => {
+      if (appFilter !== 'all' && idea.appName !== appFilter) return false
+      if (tagFilter !== 'all' && idea.tag !== tagFilter) return false
+      return true
+    })
+
+    list = [...list].sort((a, b) => {
+      if (upcomingSort === 'alpha') return a.title.localeCompare(b.title)
+      if (upcomingSort === 'complexity-desc') return complexityScore(b) - complexityScore(a)
+      if (upcomingSort === 'complexity-asc') return complexityScore(a) - complexityScore(b)
+      return 0
+    })
+
+    return list
+  }, [appFilter, tagFilter, upcomingSort])
+
   const isReleased = tab === 'released'
+
+  const appFilters: { key: UpcomingAppFilter; label: string }[] = [
+    { key: 'all', label: 'All apps' },
+    { key: 'DailyPlan', label: 'DailyPlan' },
+    { key: 'QuoteGen', label: 'QuoteGen' },
+  ]
+
+  const tagFilters: { key: UpcomingTagFilter; label: string }[] = [
+    { key: 'all', label: 'All types' },
+    { key: 'New Feature', label: 'New Feature' },
+    { key: 'Feature Update', label: 'Feature Update' },
+    { key: 'New App', label: 'New App' },
+  ]
+
+  const sortOptions: { key: UpcomingSort; label: string }[] = [
+    { key: 'default', label: 'Default order' },
+    { key: 'alpha', label: 'A — Z' },
+    { key: 'complexity-desc', label: 'Complexity: High → Low' },
+    { key: 'complexity-asc', label: 'Complexity: Low → High' },
+  ]
 
   return (
     <div className="relative min-h-screen">
@@ -110,69 +167,134 @@ export default function HomePage() {
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.3 }}
-          className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8"
+          className="flex flex-col gap-4 mb-8"
         >
-          <div className="flex items-center gap-2">
-            {/* Tab switcher */}
-            <div className="flex items-center gap-1 glass rounded-lg p-1">
-              <button
-                onClick={() => setTab('released')}
-                className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors duration-150 ${
-                  tab === 'released'
-                    ? 'bg-[var(--accent)] text-white'
-                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-                }`}
-              >
-                Released
-              </button>
-              <button
-                onClick={() => setTab('upcoming')}
-                className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors duration-150 ${
-                  tab === 'upcoming'
-                    ? 'bg-[var(--accent)] text-white'
-                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-                }`}
-              >
-                Upcoming
-              </button>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-2">
+              {/* Tab switcher */}
+              <div className="flex items-center gap-1 glass rounded-lg p-1">
+                <button
+                  onClick={() => setTab('released')}
+                  className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors duration-150 ${
+                    tab === 'released'
+                      ? 'bg-[var(--accent)] text-white'
+                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                  }`}
+                >
+                  Released
+                </button>
+                <button
+                  onClick={() => setTab('upcoming')}
+                  className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors duration-150 ${
+                    tab === 'upcoming'
+                      ? 'bg-[var(--accent)] text-white'
+                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                  }`}
+                >
+                  Upcoming
+                </button>
+              </div>
+
+              {/* Released-only sort */}
+              {isReleased && (
+                <button
+                  onClick={() => setSort(s => s === 'newest' ? 'oldest' : 'newest')}
+                  className="flex items-center gap-2 text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors glass rounded-lg px-3 py-2"
+                >
+                  <ArrowUpDown size={13} />
+                  {sort === 'newest' ? 'Newest first' : 'Oldest first'}
+                </button>
+              )}
             </div>
 
-            {/* Released-only sort */}
+            {/* Released-only view toggle */}
             {isReleased && (
-              <button
-                onClick={() => setSort(s => s === 'newest' ? 'oldest' : 'newest')}
-                className="flex items-center gap-2 text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors glass rounded-lg px-3 py-2"
-              >
-                <ArrowUpDown size={13} />
-                {sort === 'newest' ? 'Newest first' : 'Oldest first'}
-              </button>
+              <div className="flex items-center gap-1 glass rounded-lg p-1">
+                <button
+                  onClick={() => setView('grid')}
+                  className={`p-1.5 rounded-md transition-colors duration-150 ${
+                    view === 'grid'
+                      ? 'bg-[var(--accent)] text-white'
+                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                  }`}
+                >
+                  <LayoutGrid size={14} />
+                </button>
+                <button
+                  onClick={() => setView('list')}
+                  className={`p-1.5 rounded-md transition-colors duration-150 ${
+                    view === 'list'
+                      ? 'bg-[var(--accent)] text-white'
+                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                  }`}
+                >
+                  <List size={14} />
+                </button>
+              </div>
             )}
           </div>
 
-          {/* Released-only view toggle */}
-          {isReleased && (
-            <div className="flex items-center gap-1 glass rounded-lg p-1">
-              <button
-                onClick={() => setView('grid')}
-                className={`p-1.5 rounded-md transition-colors duration-150 ${
-                  view === 'grid'
-                    ? 'bg-[var(--accent)] text-white'
-                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-                }`}
-              >
-                <LayoutGrid size={14} />
-              </button>
-              <button
-                onClick={() => setView('list')}
-                className={`p-1.5 rounded-md transition-colors duration-150 ${
-                  view === 'list'
-                    ? 'bg-[var(--accent)] text-white'
-                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-                }`}
-              >
-                <List size={14} />
-              </button>
-            </div>
+          {/* Upcoming filters */}
+          {!isReleased && (
+            <motion.div
+              initial={{ opacity: 0, y: 4 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4"
+            >
+              <div className="flex flex-wrap items-center gap-2">
+                <div className="flex items-center gap-1 glass rounded-lg p-1">
+                  {appFilters.map((f) => (
+                    <button
+                      key={f.key}
+                      onClick={() => setAppFilter(f.key)}
+                      className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors duration-150 ${
+                        appFilter === f.key
+                          ? 'bg-[var(--accent)] text-white'
+                          : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                      }`}
+                    >
+                      {f.label}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="flex items-center gap-1 glass rounded-lg p-1">
+                  {tagFilters.map((f) => (
+                    <button
+                      key={f.key}
+                      onClick={() => setTagFilter(f.key)}
+                      className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors duration-150 ${
+                        tagFilter === f.key
+                          ? 'bg-[rgba(245,158,11,0.85)] text-white'
+                          : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                      }`}
+                    >
+                      {f.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <SlidersHorizontal size={13} className="text-[var(--text-secondary)]" />
+                <div className="flex items-center gap-1 glass rounded-lg p-1">
+                  {sortOptions.map((opt) => (
+                    <button
+                      key={opt.key}
+                      onClick={() => setUpcomingSort(opt.key)}
+                      className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors duration-150 ${
+                        upcomingSort === opt.key
+                          ? 'bg-[rgba(79,142,247,0.25)] text-[var(--text-primary)] border border-[rgba(79,142,247,0.35)]'
+                          : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                      }`}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
           )}
         </motion.div>
 
@@ -215,9 +337,15 @@ export default function HomePage() {
               transition={{ duration: 0.2 }}
               className="flex flex-col gap-3"
             >
-              {upcomingIdeas.map((idea, i) => (
-                <UpcomingRow key={idea.id} idea={idea} index={i} />
-              ))}
+              {filteredUpcoming.length === 0 ? (
+                <div className="glass rounded-xl px-6 py-12 text-center">
+                  <p className="text-sm text-[var(--text-secondary)]">No ideas match the selected filters.</p>
+                </div>
+              ) : (
+                filteredUpcoming.map((idea, i) => (
+                  <UpcomingRow key={idea.id} idea={idea} index={i} />
+                ))
+              )}
             </motion.div>
           )}
         </AnimatePresence>
