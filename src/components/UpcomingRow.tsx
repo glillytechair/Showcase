@@ -25,10 +25,11 @@ export default function UpcomingRow({ idea, index }: Props) {
       <div className="glass glass-hover card-shimmer rounded-xl px-5 py-4 relative group">
         <div className="shimmer-sweep" />
 
-        <div className="flex items-start gap-4">
+        <div className="flex items-start gap-3 sm:gap-4">
           {/* Idea icon */}
-          <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-[rgba(79,142,247,0.12)] border border-[rgba(79,142,247,0.2)] flex items-center justify-center mt-0.5">
-            <Lightbulb size={18} className="text-[var(--accent)]" />
+          <div className="flex-shrink-0 w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-[rgba(79,142,247,0.12)] border border-[rgba(79,142,247,0.2)] flex items-center justify-center mt-0.5">
+            <Lightbulb size={16} className="sm:hidden text-[var(--accent)]" />
+            <Lightbulb size={18} className="hidden sm:block text-[var(--accent)]" />
           </div>
 
           {/* Content */}
@@ -52,7 +53,7 @@ export default function UpcomingRow({ idea, index }: Props) {
               )}
             </div>
 
-            <h3 className="text-sm font-semibold text-[var(--text-primary)] leading-snug group-hover:text-[var(--accent)] transition-colors duration-200">
+            <h3 className="text-sm font-semibold text-[var(--text-primary)] leading-snug group-hover:text-[var(--accent)] transition-colors duration-200 pr-4 sm:pr-0">
               {idea.title}
             </h3>
 
@@ -65,7 +66,7 @@ export default function UpcomingRow({ idea, index }: Props) {
                 {idea.highlights.slice(0, 4).map((highlight, i) => (
                   <li
                     key={i}
-                    className="text-[10px] text-[var(--text-secondary)] bg-[rgba(255,255,255,0.04)] border border-[var(--border)] rounded-full px-2.5 py-1"
+                    className="text-[10px] text-[var(--text-secondary)] bg-[rgba(255,255,255,0.04)] border border-[var(--border)] rounded-full px-2 py-0.5 sm:px-2.5 sm:py-1 leading-tight"
                   >
                     {highlight}
                   </li>

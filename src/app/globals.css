@@ -184,6 +184,15 @@ body {
   opacity: 0.25;
 }
 
+/* Hide scrollbar for filter rows on mobile */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 /* Extra flair for New Application items */
 .new-app-card::before {
   content: '';

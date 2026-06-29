@@ -240,50 +240,57 @@ export default function HomePage() {
               initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
-              className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4"
+              className="flex flex-col gap-3"
             >
-              <div className="flex flex-wrap items-center gap-2">
-                <div className="flex items-center gap-1 glass rounded-lg p-1">
-                  {appFilters.map((f) => (
-                    <button
-                      key={f.key}
-                      onClick={() => setAppFilter(f.key)}
-                      className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors duration-150 ${
-                        appFilter === f.key
-                          ? 'bg-[var(--accent)] text-white'
-                          : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-                      }`}
-                    >
-                      {f.label}
-                    </button>
-                  ))}
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-start gap-3">
+                {/* App filter — horizontal scroll on mobile */}
+                <div className="flex-1 min-w-0 overflow-x-auto no-scrollbar">
+                  <div className="flex items-center gap-1 glass rounded-lg p-1 w-max">
+                    {appFilters.map((f) => (
+                      <button
+                        key={f.key}
+                        onClick={() => setAppFilter(f.key)}
+                        className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors duration-150 whitespace-nowrap ${
+                          appFilter === f.key
+                            ? 'bg-[var(--accent)] text-white'
+                            : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                        }`}
+                      >
+                        {f.label}
+                      </button>
+                    ))}
+                  </div>
                 </div>
 
-                <div className="flex items-center gap-1 glass rounded-lg p-1">
-                  {tagFilters.map((f) => (
-                    <button
-                      key={f.key}
-                      onClick={() => setTagFilter(f.key)}
-                      className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors duration-150 ${
-                        tagFilter === f.key
-                          ? 'bg-[rgba(245,158,11,0.85)] text-white'
-                          : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-                      }`}
-                    >
-                      {f.label}
-                    </button>
-                  ))}
+                {/* Tag filter — horizontal scroll on mobile */}
+                <div className="flex-1 min-w-0 overflow-x-auto no-scrollbar">
+                  <div className="flex items-center gap-1 glass rounded-lg p-1 w-max">
+                    {tagFilters.map((f) => (
+                      <button
+                        key={f.key}
+                        onClick={() => setTagFilter(f.key)}
+                        className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors duration-150 whitespace-nowrap ${
+                          tagFilter === f.key
+                            ? 'bg-[rgba(245,158,11,0.85)] text-white'
+                            : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                        }`}
+                      >
+                        {f.label}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
 
+              {/* Sort — button group on md+, compact native select below */}
               <div className="flex items-center gap-2">
-                <SlidersHorizontal size={13} className="text-[var(--text-secondary)]" />
-                <div className="flex items-center gap-1 glass rounded-lg p-1">
+                <SlidersHorizontal size={13} className="text-[var(--text-secondary)] flex-shrink-0" />
+                <div className="hidden sm:flex items-center gap-1 glass rounded-lg p-1">
                   {sortOptions.map((opt) => (
                     <button
                       key={opt.key}
                       onClick={() => setUpcomingSort(opt.key)}
-                      className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors duration-150 ${
+                      className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors duration-150 whitespace-nowrap ${
                         upcomingSort === opt.key
                           ? 'bg-[rgba(79,142,247,0.25)] text-[var(--text-primary)] border border-[rgba(79,142,247,0.35)]'
                           : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
@@ -293,6 +300,18 @@ export default function HomePage() {
                     </button>
                   ))}
                 </div>
+                <select
+                  value={upcomingSort}
+                  onChange={(e) => setUpcomingSort(e.target.value as UpcomingSort)}
+                  className="sm:hidden flex-1 glass rounded-lg px-3 py-2 text-xs text-[var(--text-primary)] bg-transparent border border-[var(--border)] appearance-none"
+                  style={{ backgroundImage: 'none' }}
+                >
+                  {sortOptions.map((opt) => (
+                    <option key={opt.key} value={opt.key} className="bg-[#0a0c18]">
+                      {opt.label}
+                    </option>
+                  ))}
+                </select>
               </div>
             </motion.div>
           )}
