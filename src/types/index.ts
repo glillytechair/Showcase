@@ -35,4 +35,5 @@ export interface UpcomingIdea {
   tag: UpcomingTag
   complexity?: string
   highlights?: string[]
+  prompt: string
 }

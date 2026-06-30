@@ -1,8 +1,9 @@
 'use client'
 
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { UpcomingIdea } from '@/types'
-import { Lightbulb, ArrowRight, Wrench } from 'lucide-react'
+import { Lightbulb, ArrowRight, Wrench, Copy, Check } from 'lucide-react'
 
 interface Props {
   idea: UpcomingIdea
@@ -16,13 +17,35 @@ const tagClass: Record<string, string> = {
 }
 
 export default function UpcomingRow({ idea, index }: Props) {
+  const [copied, setCopied] = useState(false)
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(idea.prompt)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch {
+      // Fallback for browsers that block clipboard
+      const textarea = document.createElement('textarea')
+      textarea.value = idea.prompt
+      textarea.style.position = 'fixed'
+      textarea.style.opacity = '0'
+      document.body.appendChild(textarea)
+      textarea.select()
+      document.execCommand('copy')
+      document.body.removeChild(textarea)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    }
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: index * 0.04, ease: [0.22, 1, 0.36, 1] }}
     >
-      <div className="glass glass-hover card-shimmer rounded-xl px-5 py-4 relative group">
+      <div className="glass glass-hover card-shimmer rounded-xl px-4 py-4 sm:px-5 relative group">
         <div className="shimmer-sweep" />
 
         <div className="flex items-start gap-3 sm:gap-4">
@@ -78,6 +101,30 @@ export default function UpcomingRow({ idea, index }: Props) {
                 )}
               </ul>
             )}
+
+            {/* Copy prompt action */}
+            <div className="mt-3 flex items-center justify-end">
+              <button
+                onClick={handleCopy}
+                className={`flex items-center gap-1.5 text-[11px] font-medium rounded-md px-2.5 py-1.5 transition-all duration-200 ${
+                  copied
+                    ? 'bg-[rgba(0,210,140,0.15)] text-[#4dffc3] border border-[rgba(0,210,140,0.35)]'
+                    : 'bg-[rgba(79,142,247,0.1)] text-[var(--accent)] border border-[rgba(79,142,247,0.25)] hover:bg-[rgba(79,142,247,0.18)] hover:border-[rgba(79,142,247,0.4)]'
+                }`}
+              >
+                {copied ? (
+                  <>
+                    <Check size={12} />
+                    Copied
+                  </>
+                ) : (
+                  <>
+                    <Copy size={12} />
+                    Copy Prompt
+                  </>
+                )}
+              </button>
+            </div>
           </div>
 
           {/* Arrow */}
