@@ -406,4 +406,328 @@ export const upcomingIdeas: UpcomingIdea[] = [
       'Leverages existing quote history data',
     ],
   },
+
+  // ─── ADDITIONAL DAILYPLAN IDEAS ──────────────────────────────────────────────
+  {
+    id: 'dp-11',
+    slug: 'constraint-transcriber',
+    appName: 'DailyPlan',
+    title: 'Constraint Transcriber',
+    subtitle:
+      'Foremen voice-dictate field issues; speech-to-text parses them into structured action items routed to the right managers.',
+    description:
+      'Built on the Meeting Transcript Action Extractor, this captures trailer-side constraints straight from the field and turns them into trackable tasks with owners and due dates. Removes the delay between a problem surfacing and the office acting on it.',
+    date: '2026-06-29',
+    tag: 'New Feature',
+    complexity: 'Medium',
+    highlights: [
+      'Voice capture optimized for jobsite noise',
+      'Auto-extracts who, what, and when',
+      'Routes action items to PMs, safety, or dispatch',
+      'Links back to the originating job and daily plan',
+      'Works on mobile without leaving the field view',
+    ],
+  },
+  {
+    id: 'dp-12',
+    slug: 'foreman-todo-list',
+    appName: 'DailyPlan',
+    title: 'Foreman-Level To-Do List',
+    subtitle:
+      'A lightweight, site-specific task list for foremen tied to the day’s plan and crew assignments.',
+    description:
+      'Gives foremen a simple place to jot must-do items for themselves and their crew — safety reminders, material checks, follow-ups — without the weight of the full task module. Items can be carried forward or closed out at end-of-day.',
+    date: '2026-06-29',
+    tag: 'New Feature',
+    complexity: 'Low-Medium',
+    highlights: [
+      'Mobile-first, thumb-friendly interface',
+      'Auto-suggests tasks from the active Daily Plan',
+      'Site and crew scoped',
+      'Carry-forward incomplete items',
+      'Rolls into end-of-day turnover',
+    ],
+  },
+  {
+    id: 'dp-13',
+    slug: 'pm-daily-digest',
+    appName: 'DailyPlan',
+    title: 'PM Daily Digest — AI Summary',
+    subtitle:
+      'An automated morning brief for project managers with risks, exposures, overdue items, and status update drafts.',
+    description:
+      'Aggregates overnight changes across jobs — missing fields, late deliveries, safety open items, schedule conflicts — and surfaces what needs attention first. Includes auto-drafted status updates PMs can edit and send.',
+    date: '2026-06-29',
+    tag: 'New Feature',
+    complexity: 'Medium',
+    highlights: [
+      'Auto-generated every morning per PM',
+      'Risk/exposure flagging',
+      'Deep-links to every highlighted item',
+      'Editable status-update drafts',
+      'Extends dailyplan-chat with PM query types',
+    ],
+  },
+  {
+    id: 'dp-14',
+    slug: 'ai-crew-to-job-suggestions',
+    appName: 'DailyPlan',
+    title: 'AI Crew-to-Job Suggestions',
+    subtitle:
+      'Recommends the best crew placement for upcoming work based on skills, availability, location, and job priorities.',
+    description:
+      'Analyzes crew certifications, past performance, current assignments, and travel distance to suggest optimal placements. Dispatchers retain full control but start from a data-informed shortlist instead of a blank board.',
+    date: '2026-06-29',
+    tag: 'New Feature',
+    complexity: 'Medium-High',
+    highlights: [
+      'Skill and certification matching',
+      'Availability and location awareness',
+      'Rush and priority weighting',
+      'Explainable recommendations',
+      'One-click accept or override',
+    ],
+  },
+  {
+    id: 'dp-15',
+    slug: 'ready-to-start-dispatch-gate',
+    appName: 'DailyPlan',
+    title: 'Ready-to-Start Dispatch Gate',
+    subtitle:
+      'A pre-dispatch checklist that blocks crews from being sent until material, tools, drawings, and permits are confirmed ready.',
+    description:
+      'Surfaces missing prerequisites before a crew is dispatched, preventing wasted trips and standby time. Each gate item links to the source record so the dispatcher can clear it quickly.',
+    date: '2026-06-29',
+    tag: 'New Feature',
+    complexity: 'Medium',
+    highlights: [
+      'Configurable gate criteria per task type',
+      'Material readiness status',
+      'Tool/equipment readiness check',
+      'Drawing and permit verification',
+      'Visual red/green gate status per job',
+    ],
+  },
+  {
+    id: 'dp-16',
+    slug: 'skill-aware-crew-assignment',
+    appName: 'DailyPlan',
+    title: 'Skill-Aware Crew Assignment',
+    subtitle:
+      'Track worker certifications and skills so schedulers can build crews that match each task’s requirements.',
+    description:
+      'Adds a skills matrix to the roster and warns when a planned crew lacks a required certification — confined space, fall protection, welding, rigging, etc. Helps avoid compliance gaps and rework caused by wrong crew mix.',
+    date: '2026-06-29',
+    tag: 'Feature Update',
+    complexity: 'Medium-High',
+    highlights: [
+      'Worker skill and certification profiles',
+      'Task-type requirement rules',
+      'Assignment conflict warnings',
+      'Expiration alerts for certs',
+      'Crew composition suggestions',
+    ],
+  },
+  {
+    id: 'dp-17',
+    slug: 'constraint-register',
+    appName: 'DailyPlan',
+    title: 'Constraint Register with Owners & Due Dates',
+    subtitle:
+      'A centralized list of every open constraint across active jobs with clear ownership and resolution deadlines.',
+    description:
+      'Moves constraints out of text threads and whiteboards into a tracked register. PMs and foremen can see what is blocked, who is accountable, and when it must be cleared — with escalations as due dates approach.',
+    date: '2026-06-29',
+    tag: 'New Feature',
+    complexity: 'Medium',
+    highlights: [
+      'Job-scoped and cross-job views',
+      'Owner assignment and due dates',
+      'Status workflow (Open / In Progress / Cleared)',
+      'Auto-escalation nearing deadline',
+      'Feeds the Dashboard Alerts & Action Center',
+    ],
+  },
+  {
+    id: 'dp-18',
+    slug: 'auto-end-of-day-turnover',
+    appName: 'DailyPlan',
+    title: 'Auto End-of-Day Turnover Report',
+    subtitle:
+      'Generates a structured handoff summary for the next shift or foreman based on actuals, notes, and open items.',
+    description:
+      'Pulls together completed work, remaining tasks, constraints, safety notes, and material issues into a ready-to-read turnover. Seeds tomorrow’s Daily Plan so the next crew starts with context instead of asking questions.',
+    date: '2026-06-29',
+    tag: 'New Feature',
+    complexity: 'Medium',
+    highlights: [
+      'Auto-generated from field notes and statuses',
+      'Carry-forward incomplete tasks',
+      'Constraint and safety handoff section',
+      'Seeds the next day’s plan',
+      'Editable before send',
+    ],
+  },
+
+  // ─── ADDITIONAL QUOTEGEN IDEAS ───────────────────────────────────────────────
+  {
+    id: 'qg-11',
+    slug: 'tagcounter-manual-pdf-counting',
+    appName: 'QuoteGen',
+    title: 'TagCounter + Manual PDF Counting',
+    subtitle:
+      'Upload PDF plans and count tagged parts (VAV, CD, FSD, RG) by tag pattern or by dropping colored markers on the drawing.',
+    description:
+      'A lightweight pre-takeoff counting layer that needs no dimensional measurement. Estimators click to drop part-type markers on PDF.js drawings and get live per-page tallies that feed the scope. Counts also become training data for the AI takeoff model.',
+    date: '2026-06-29',
+    tag: 'New Feature',
+    complexity: 'Medium-High',
+    highlights: [
+      'PDF.js drawing viewer',
+      'Click-to-drop colored part-type markers',
+      'Tag pattern auto-count (VAV, CD, FSD, RG)',
+      'Live per-page tally',
+      'Outputs feed scope line items and AI training data',
+    ],
+  },
+  {
+    id: 'qg-12',
+    slug: 'missing-scope-detector',
+    appName: 'QuoteGen',
+    title: 'Missing-Scope Detector',
+    subtitle:
+      'Scans the quote for common missing scope items like crane, permit, disposal, controls, TAB, and commissioning.',
+    description:
+      'Catches the things estimators forget to clarify or price — crane rentals, permits, hauling/disposal, controls integration, TAB, commissioning, and temporary power. Surfaces them as flagged suggestions the estimator can accept, edit, or dismiss.',
+    date: '2026-06-29',
+    tag: 'New Feature',
+    complexity: 'Medium',
+    highlights: [
+      'Rule-based and LLM-assisted detection',
+      'Configurable checklist per team (Duct / Fab / Steel)',
+      'One-click add to scope or exclusions',
+      'Learns from past won/lost quotes',
+      'Reduces post-award change orders',
+    ],
+  },
+  {
+    id: 'qg-13',
+    slug: 'assembly-templates-archetype',
+    appName: 'QuoteGen',
+    title: 'Assembly Templates by Archetype',
+    subtitle:
+      'Pre-built quote assemblies for common project types like RTU swap, VAV zone add, or exhaust fan replacement.',
+    description:
+      'Goes beyond reusable snippets by bundling entire scope sections, labor assumptions, materials, and terms for common job archetypes. Estimators drop in an assembly and adjust quantities instead of writing from scratch.',
+    date: '2026-06-29',
+    tag: 'New Feature',
+    complexity: 'Medium',
+    highlights: [
+      'Archetype library (RTU swap, VAV add, fan replacement, etc.)',
+      'Bundled scope, labor, materials, and terms',
+      'Quantity-driven scaling',
+      'Team-specific archetypes',
+      'Builds on the Smart Quote Template Engine',
+    ],
+  },
+  {
+    id: 'qg-14',
+    slug: 'good-better-best-builder',
+    appName: 'QuoteGen',
+    title: 'Good / Better / Best Option Builder',
+    subtitle:
+      'Generate tiered quote options for customers with clear upgrade rationale and pricing at each level.',
+    description:
+      'Lets estimators define a base scope and two upgrade tiers — for example, standard liner vs. acoustic liner vs. external insulation, or standard controls vs. upgraded controls. Each tier shows delta pricing and a customer-facing rationale.',
+    date: '2026-06-29',
+    tag: 'New Feature',
+    complexity: 'Medium',
+    highlights: [
+      'Base + two upgrade tiers per quote',
+      'Delta pricing automatically calculated',
+      'Customer-facing option summary',
+      'PDF output with tiered scope blocks',
+      'Helps upsell without rewriting the quote',
+    ],
+  },
+  {
+    id: 'qg-15',
+    slug: 'won-lost-reason-capture',
+    appName: 'QuoteGen',
+    title: 'Won / Lost Reason Capture',
+    subtitle:
+      'Record why quotes are won or lost to build feedback loops for estimating and sales.',
+    description:
+      'Adds a quick close-out step when a quote status changes to Awarded or Lost. Captures reason codes, competitor info, and free-form notes. Feeds analytics so leadership can spot pricing, scope, or follow-up patterns.',
+    date: '2026-06-29',
+    tag: 'New Feature',
+    complexity: 'Low-Medium',
+    highlights: [
+      'Reason-code picker with custom notes',
+      'Competitor and price capture',
+      'Required on status change to Awarded/Lost',
+      'Trend reporting by estimator and team',
+      'Improves forecasting and win-rate modeling',
+    ],
+  },
+  {
+    id: 'qg-16',
+    slug: 'long-lead-procurement-alerts',
+    appName: 'QuoteGen',
+    title: 'Long-Lead Procurement Alerts',
+    subtitle:
+      'Flag equipment and materials with extended lead times so quotes reflect realistic delivery and pricing.',
+    description:
+      'Surfaces long-lead items during quoting — RTUs, custom coils, specialty steel — and prompts the estimator to confirm availability and delivery impact. Helps avoid quotes that win but cannot be fulfilled on schedule.',
+    date: '2026-06-29',
+    tag: 'New Feature',
+    complexity: 'Medium',
+    highlights: [
+      'Long-lead item database',
+      'Automatic flagging in scope builder',
+      'Delivery impact note per item',
+      'Integration with vendor price history',
+      'Escalation if lead time exceeds job schedule',
+    ],
+  },
+  {
+    id: 'qg-17',
+    slug: 'estimate-to-project-handoff',
+    appName: 'QuoteGen',
+    title: 'Estimate-to-Project Handoff Packet',
+    subtitle:
+      'Auto-generates a structured project kickoff document when a quote is awarded.',
+    description:
+      'Packages the final scope, clarifications, exclusions, assumptions, pricing breakdown, customer contacts, and key dates into a handoff packet for the PM and field team. Reduces misinterpretation between estimating and operations.',
+    date: '2026-06-29',
+    tag: 'New Feature',
+    complexity: 'Medium',
+    highlights: [
+      'Auto-generated on quote award',
+      'Scope, exclusions, and assumptions preserved',
+      'Pricing breakdown and key dates',
+      'Customer and vendor contacts',
+      'PDF and structured DailyPlan import',
+    ],
+  },
+  {
+    id: 'qg-18',
+    slug: 'assumption-exclusions-builder',
+    appName: 'QuoteGen',
+    title: 'Assumption & Exclusions Builder',
+    subtitle:
+      'A structured builder for quote assumptions and exclusions so nothing is left implied.',
+    description:
+      'Replaces ad-hoc assumption notes with a managed list of standard assumptions and exclusions. Estimators pick from team defaults, add job-specific items, and the final set flows cleanly into the PDF and handoff packet.',
+    date: '2026-06-29',
+    tag: 'New Feature',
+    complexity: 'Low-Medium',
+    highlights: [
+      'Team-specific default libraries',
+      'Structured add/edit/reorder',
+      'Auto-included in PDF output',
+      'Linked to missing-scope detection',
+      'Reduces post-award disputes',
+    ],
+  },
 ]
