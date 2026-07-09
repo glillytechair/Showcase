@@ -8,6 +8,57 @@ import { Feature } from '@/types'
 
 export const features: Feature[] = [
   {
+    id: '9',
+    slug: 'safety-hub',
+    appName: 'DailyPlan',
+    featureName: 'Safety Hub',
+    title: 'DailyPlan — Safety Hub',
+    subtitle:
+      'The whole safety program — hazard analyses, inspections, incidents, certifications, toolbox talks, and emergency info — living in the same app as the work.',
+    description:
+      "Safety paperwork has a way of scattering: a JHA on a clipboard in the truck, an inspection form in someone's email, a certification date in a spreadsheet nobody updates. The Safety Hub pulls the whole program into DailyPlan, where the field already works, so compliance lives next to the job instead of in a filing cabinet.\n\nA safety dashboard gives leadership the top-line read — open incidents, inspections this month, and the most recent activity — with quick actions to jump straight into whatever needs attention. Underneath it are the working tools the field and safety team actually use day to day.\n\nCrews fill out Job Hazard Analyses on site — date, location, task, and the step-by-step breakdown of hazards and controls. Site Inspections capture conditions and notes in the field. Incident reports record what happened, who was involved, immediate action taken, attachments, and the safety team's follow-up notes. Certifications track each worker's cards with issue and expiry dates so nothing lapses unnoticed. A toolbox-talk library keeps the standard talks in one place, and an emergency section holds site contacts and info where anyone can reach them fast.\n\nBecause it all sits inside DailyPlan, safety isn't a separate system someone has to remember to open — it's part of running the day, and the record builds itself as the work happens.",
+    date: '2026-06-28',
+    tag: 'New Feature',
+    department: 'Safety',
+    highlights: [
+      'Safety dashboard — open incidents, inspections this month, recent activity, and quick actions in one view',
+      'Job Hazard Analysis — crews document date, location, task, and step-by-step hazards and controls on site',
+      'Site Inspections — capture field conditions and notes as inspections happen',
+      'Incident reporting — what happened, people involved, immediate action, attachments, and safety-team follow-up notes',
+      'Certification tracking — each worker\'s cards with issue and expiry dates so nothing lapses unnoticed',
+      'Toolbox-talk library — the standard talks kept in one place for the crew',
+      'Emergency info — site contacts and emergency details where anyone can reach them fast',
+      'Built into DailyPlan — safety lives with the work instead of in a separate system',
+    ],
+    // Screenshots pending — drop images into /public (e.g. /safety1.png …) and add them here.
+    media: [],
+  },
+  {
+    id: '8',
+    slug: 'aligngap',
+    appName: 'DailyPlan',
+    featureName: 'AlignGap',
+    title: 'DailyPlan — AlignGap',
+    subtitle:
+      'A structured feedback tool that gathers input from both sides, then surfaces the gap between them for a focused, fair review conversation.',
+    description:
+      "Reviews go sideways when they're one person's opinion delivered cold. AlignGap is built around a simple idea: collect input from both sides first, then talk about where they don't line up. The employee and the manager each submit their own view through a structured form, and only once both are in does the review move forward — the status literally reads \"ready for manager review\" when both halves are complete.\n\nThe difference between the two submissions is the point. AlignGap surfaces the gaps — the places where self-assessment and manager assessment diverge — so the conversation focuses on what actually matters instead of rehashing everything. It turns a review from a verdict into an alignment.\n\nForms are sent out by secure link, so a participant can fill in their part without needing to live in the app, and a preview lets an admin see a review set before it goes out. An admin area manages the review cycles, and completed reviews are kept as a record rather than lost after the meeting. The result is a feedback process that's consistent, two-sided, and centered on closing the gap between how people see the same work.",
+    date: '2026-06-22',
+    tag: 'New Feature',
+    department: 'People',
+    highlights: [
+      'Two-sided by design — employee and manager each submit their own view before the review advances',
+      'Gap-focused — surfaces where self-assessment and manager assessment diverge so the conversation targets what matters',
+      'Clear status flow — a review only becomes \"ready for manager review\" once both halves are submitted',
+      'Secure form links — participants fill in their part without needing to work inside the app',
+      'Set preview — an admin can review a feedback set before it goes out',
+      'Admin area to manage review cycles, with completed reviews kept as a record',
+      'Lives in DailyPlan — the same platform the team already uses, no separate HR tool',
+    ],
+    // Screenshots pending — drop images into /public (e.g. /aligngap1.png …) and add them here.
+    media: [],
+  },
+  {
     id: '7',
     slug: 'aeroseal',
     appName: 'DailyPlan',
