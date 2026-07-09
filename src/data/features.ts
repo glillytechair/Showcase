@@ -8,6 +8,33 @@ import { Feature } from '@/types'
 
 export const features: Feature[] = [
   {
+    id: '7',
+    slug: 'aeroseal',
+    appName: 'DailyPlan',
+    featureName: 'AeroSeal',
+    title: 'DailyPlan — AeroSeal',
+    subtitle:
+      'The full AeroSeal workflow in one place — field requests, sealed runs with before-and-after leakage numbers, and billing — with the leakage-reduction results proven on every job.',
+    description:
+      "AeroSeal is aerosol duct sealing: sealant is injected into a duct system and closes leaks from the inside, and the whole point is provable performance — you measure leakage before, measure it after, and show the reduction. Tracking that across dozens of jobs used to mean spreadsheets, paperwork, and hoping the numbers made it back to billing.\n\nThe AeroSeal module runs the entire cycle inside DailyPlan. It opens on a dashboard that turns every sealed run into live numbers: total runs, runs this month, total square footage sealed, and the headline metric — average leakage reduction across all work — plus leaderboards for the busiest jobs and the top sealers. It's the proof-of-performance story at a glance.\n\nThe work flows in three stages. The field opens a Seal Request tied to a job — with the foreman, who requested it, and the cuts needed — and it moves through a clear status track. A technician then logs the Seal Run: pick the job, record leakage before and after, the rectangular and round square footage, seal type, who performed it, and drop in supporting files. The system computes the reduction automatically and marks the run pass or fail. Every run lands in a searchable, filterable log — by job, customer, performer, foreman, or seal type — so any past job can be pulled up in seconds.\n\nFinally, billing closes the loop. Completed runs reconcile against billing records, link to the right job, and flag anything unlinked or unusual so nothing sealed goes unbilled and nothing bills twice. From the field request to the invoice, AeroSeal is one connected trail — and even when runs span multiple jobs, they stay tied together.",
+    date: '2026-06-15',
+    tag: 'New Feature',
+    department: 'Field Operations',
+    highlights: [
+      'End-to-end workflow — field request, seal run, and billing all in one connected trail, even across multiple jobs',
+      'Proof-of-performance dashboard — total runs, runs this month, total sq ft sealed, and average leakage reduction across all work',
+      'Leaderboards — busiest jobs and top sealers surfaced automatically',
+      'Seal Requests — the field opens a request tied to a job with foreman, requester, and cuts, tracked through a clear status flow',
+      'Seal Run logging — job, leakage before/after, rectangular and round sq ft, seal type, performer, and attached files',
+      'Automatic reduction and pass/fail — the system computes the leakage drop and grades each run, no manual math',
+      'Searchable, filterable run log — find any past run by job, customer, performer, foreman, or seal type in seconds',
+      'Billing reconciliation — runs link to the right job and flag unlinked or unusual entries so nothing is missed or double-billed',
+      'Lives inside DailyPlan — the same platform the field and office already use, no separate tool to learn',
+    ],
+    // Screenshots pending — drop images into /public (e.g. /aeroseal1.png …) and add them here.
+    media: [],
+  },
+  {
     id: '6',
     slug: 'procore-integration',
     appName: 'DailyPlan',
