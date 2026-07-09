@@ -8,6 +8,32 @@ import { Feature } from '@/types'
 
 export const features: Feature[] = [
   {
+    id: '6',
+    slug: 'procore-integration',
+    appName: 'DailyPlan',
+    featureName: 'Procore Integration',
+    title: 'DailyPlan — Procore Integration',
+    subtitle:
+      'Pulls Procore submittals and project data straight into DailyPlan, so PMs track lead times and delivery dates without living in two systems.',
+    description:
+      "Our project data lives in Procore, but the day-to-day work lives in DailyPlan. That split meant PMs were constantly bouncing between the two — checking a submittal's lead time or delivery date in Procore, then coming back to DailyPlan to actually plan around it. Anything that needed both pictures at once had to be carried across in someone's head or re-typed.\n\nThe Procore Integration closes that gap. DailyPlan connects to Procore through a secure one-time authorization, then pulls project and submittal data in on demand. A PM picks a Procore project and sees its submittals in a clean, sortable table right inside DailyPlan — number, title, spec section, status, lead time, anticipated delivery and required-on-site dates, submit-by and return dates, who the ball is in the court of, and any attachments. Statuses are color-coded so open, approved, and revise-and-resubmit items are obvious at a glance, and the whole table filters and sorts so the long-lead items that drive the schedule rise to the top.\n\nSubmittal attachments open right from the row, so the drawing or cut sheet is one click away instead of a hunt through Procore. And on the buyout side, a DailyPlan job can be linked to its Procore project so buyout items line up with the real project record instead of a loosely-typed job name.\n\nBecause the connection is handled centrally, individual PMs don't manage keys or logins — they just open the Procore view and the current data is there. The result is one place to plan the day that already knows what Procore knows.",
+    date: '2026-06-10',
+    tag: 'Integration',
+    department: 'Project Management',
+    highlights: [
+      'Secure one-time authorization connects DailyPlan to Procore — no per-user keys or repeated logins to manage',
+      'Pick a Procore project and see its submittals inside DailyPlan, no app-switching',
+      'Full submittal detail — number, title, spec section, status, lead time, delivery and required-on-site dates, submit-by, return date, and ball-in-court',
+      'Color-coded statuses — open/pending, approved/closed, and revise-and-resubmit are obvious at a glance',
+      'Sort and filter the table so long-lead items that drive the schedule rise to the top',
+      'Submittal attachments open straight from the row — the cut sheet or drawing is one click away',
+      'Buyout jobs link to their Procore project so items match the real project record, not a typed-in job name',
+      'Centrally managed connection keeps the data current for everyone without setup on each PM’s side',
+    ],
+    // Screenshots pending — drop images into /public (e.g. /procore1.png …) and add them here.
+    media: [],
+  },
+  {
     id: '5',
     slug: 'quotegen',
     appName: 'QuoteGen',
