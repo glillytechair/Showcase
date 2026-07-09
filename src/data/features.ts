@@ -8,6 +8,32 @@ import { Feature } from '@/types'
 
 export const features: Feature[] = [
   {
+    id: '10',
+    slug: 'company-website',
+    appName: 'Company Website',
+    title: 'Company Website — netechair.com',
+    subtitle:
+      'A ground-up marketing site that presents Tech Air the way our work deserves — the markets we serve, how we deliver, our project history, and secure portals for clients, vendors, and employees.',
+    description:
+      "For years our public face didn't match the quality of the work. The new netechair.com is a complete rebuild — a fast, modern site that tells the Tech Air story and turns a first visit into a real understanding of what we do and why generals and owners should trust us with complex mechanical work.\n\nThe home page opens on a design-to-install overview and three pillars that define how we operate: BIM-led coordination, in-house fabrication, and professional installation. From there it lays out the markets we specialize in — healthcare and hospitals, data centers, clean rooms and labs, and government and defense — the demanding, high-stakes environments where our discipline pays off.\n\nA \"why clients choose us\" section makes the case in our own terms: disciplined up-front planning and precon walkthroughs, coordination before mobilization, work that's friendly to occupied facilities, transparency and communication, cleaner installs, and less rework through right-first-time execution. A project case-study carousel shows real completed work, and deeper pages tell the fuller story — company history, our lean journey, and our development process.\n\nBeyond marketing, the site doubles as a gateway. Secure Client, Vendor, and Employee portals sit behind sign-in and registration, with an admin approval flow that controls who gets in — so the same domain that wins the work also serves the people we work with. A blog rounds it out for ongoing updates, and the whole thing is responsive and built to load fast on any device.",
+    date: '2026-03-09',
+    tag: 'New Application',
+    department: 'Marketing',
+    highlights: [
+      'Complete ground-up rebuild of netechair.com — modern, fast, and responsive on any device',
+      'Home page hero with a design-to-install video overview and three pillars: BIM-led coordination, in-house fabrication, professional install',
+      'Market sections for the high-stakes environments we specialize in — healthcare, data centers, clean rooms & labs, and government/defense',
+      '"Why clients choose us" — disciplined planning, precon walkthroughs, coordination before mobilization, occupied-facility-friendly work, cleaner installs, and less rework',
+      'Project case-study carousel showcasing real completed work',
+      'Company-story pages — About, Company History, Lean Journey, and Development Process',
+      'Secure Client, Vendor, and Employee portals behind sign-in/registration with an admin approval flow',
+      'Blog for ongoing company updates and articles',
+      'Built to represent Tech Air across New England and the eastern seaboard',
+    ],
+    // Screenshots pending — drop images into /public (e.g. /website1.png …) and add them here.
+    media: [],
+  },
+  {
     id: '9',
     slug: 'safety-hub',
     appName: 'DailyPlan',
