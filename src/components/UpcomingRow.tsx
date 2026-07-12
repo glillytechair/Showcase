@@ -1,9 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { UpcomingIdea } from '@/types'
-import { Lightbulb, ArrowRight, Wrench, Copy, Check } from 'lucide-react'
+import { Lightbulb, ChevronDown, Wrench, Copy, Check, Terminal, Calendar } from 'lucide-react'
 
 interface Props {
   idea: UpcomingIdea
@@ -18,8 +18,10 @@ const tagClass: Record<string, string> = {
 
 export default function UpcomingRow({ idea, index }: Props) {
   const [copied, setCopied] = useState(false)
+  const [expanded, setExpanded] = useState(false)
 
-  const handleCopy = async () => {
+  const handleCopy = async (e: React.MouseEvent) => {
+    e.stopPropagation()
     try {
       await navigator.clipboard.writeText(idea.prompt)
       setCopied(true)
@@ -39,13 +41,34 @@ export default function UpcomingRow({ idea, index }: Props) {
     }
   }
 
+  const dateLabel = new Date(idea.date + 'T00:00:00').toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  })
+
+  const visibleHighlights = expanded ? idea.highlights ?? [] : (idea.highlights ?? []).slice(0, 4)
+  const hiddenCount = (idea.highlights?.length ?? 0) - visibleHighlights.length
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: index * 0.04, ease: [0.22, 1, 0.36, 1] }}
     >
-      <div className="glass glass-hover card-shimmer rounded-xl px-4 py-4 sm:px-5 relative group">
+      <div
+        onClick={() => setExpanded((e) => !e)}
+        role="button"
+        aria-expanded={expanded}
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            setExpanded((x) => !x)
+          }
+        }}
+        className="glass glass-hover card-shimmer rounded-xl px-4 py-4 sm:px-5 relative group cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-[rgba(79,142,247,0.5)]"
+      >
         <div className="shimmer-sweep" />
 
         <div className="flex items-start gap-3 sm:gap-4">
@@ -88,9 +111,9 @@ export default function UpcomingRow({ idea, index }: Props) {
               {idea.subtitle}
             </p>
 
-            {idea.highlights && idea.highlights.length > 0 && (
+            {visibleHighlights.length > 0 && (
               <ul className="mt-3 flex flex-wrap gap-2">
-                {idea.highlights.slice(0, 4).map((highlight, i) => (
+                {visibleHighlights.map((highlight, i) => (
                   <li
                     key={i}
                     className="text-[10px] text-[var(--text-secondary)] bg-[rgba(255,255,255,0.04)] border border-[var(--border)] rounded-full px-2 py-0.5 sm:px-2.5 sm:py-1 leading-tight"
@@ -98,16 +121,49 @@ export default function UpcomingRow({ idea, index }: Props) {
                     {highlight}
                   </li>
                 ))}
-                {idea.highlights.length > 4 && (
+                {hiddenCount > 0 && (
                   <li className="text-[10px] text-[var(--accent)] px-2 py-1">
-                    +{idea.highlights.length - 4} more
+                    +{hiddenCount} more
                   </li>
                 )}
               </ul>
             )}
 
-            {/* Copy prompt action */}
-            <div className="mt-3 flex items-center justify-end">
+            {/* Expanded detail */}
+            <AnimatePresence initial={false}>
+              {expanded && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+                  className="overflow-hidden"
+                >
+                  <p className="text-xs text-[var(--text-secondary)] mt-4 leading-relaxed">
+                    {idea.description}
+                  </p>
+
+                  <div className="mt-4 rounded-lg bg-[rgba(0,0,0,0.35)] border border-[rgba(79,142,247,0.18)] px-3.5 py-3">
+                    <div className="flex items-center gap-1.5 mb-2">
+                      <Terminal size={11} className="text-[var(--accent)]" />
+                      <span className="text-[10px] font-semibold text-[var(--accent)] uppercase tracking-widest">
+                        AI Build Prompt
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-[var(--text-secondary)] leading-relaxed font-mono">
+                      {idea.prompt}
+                    </p>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Footer: date + copy action */}
+            <div className="mt-3 flex items-center justify-between">
+              <span className="inline-flex items-center gap-1.5 text-[10px] text-[var(--text-secondary)]">
+                <Calendar size={10} />
+                {dateLabel}
+              </span>
               <button
                 onClick={handleCopy}
                 className={`flex items-center gap-1.5 text-[11px] font-medium rounded-md px-2.5 py-1.5 transition-all duration-200 ${
@@ -131,10 +187,12 @@ export default function UpcomingRow({ idea, index }: Props) {
             </div>
           </div>
 
-          {/* Arrow */}
-          <ArrowRight
-            size={14}
-            className="flex-shrink-0 text-[var(--text-secondary)] group-hover:text-[var(--accent)] group-hover:translate-x-1 transition-all duration-200 mt-1"
+          {/* Expand chevron */}
+          <ChevronDown
+            size={15}
+            className={`flex-shrink-0 text-[var(--text-secondary)] group-hover:text-[var(--accent)] transition-all duration-200 mt-1 ${
+              expanded ? 'rotate-180' : ''
+            }`}
           />
         </div>
 

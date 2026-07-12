@@ -218,11 +218,11 @@ export default function HomePage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-6 text-base md:text-lg text-[var(--text-secondary)] md:whitespace-nowrap"
+              className={`mt-6 text-base md:text-lg text-[var(--text-secondary)] ${isReleased ? 'md:whitespace-nowrap' : ''}`}
             >
               {isReleased
                 ? 'The latest features, enhancements, and improvements from our engineering team.'
-                : `${upcomingIdeas.length} ideas on the roadmap for DailyPlan and QuoteGen — search and filter by app, type, category, or complexity.`}
+                : `${upcomingIdeas.length} roadmap ideas for DailyPlan and QuoteGen — expand any card for details and its AI build prompt.`}
             </motion.p>
 
             {/* Decorated divider */}
@@ -362,25 +362,29 @@ export default function HomePage() {
 
                 <div className="flex-1 min-w-0 overflow-x-auto no-scrollbar">
                   <div className="flex items-center gap-1 glass rounded-lg p-1 w-max">
-                    {tagFilters.map((f) => (
-                      <button
-                        key={f.key}
-                        onClick={() => setTagFilter(f.key)}
-                        className={chipClass(tagFilter === f.key, 'bg-[rgba(245,158,11,0.85)] text-white')}
-                      >
-                        {f.label}
-                        <span className={`ml-1.5 text-[10px] ${tagFilter === f.key ? 'opacity-80' : 'opacity-60'}`}>
-                          {countByTag(f.key)}
-                        </span>
-                      </button>
-                    ))}
+                    {tagFilters.map((f) => {
+                      const count = countByTag(f.key)
+                      if (f.key !== 'all' && count === 0 && tagFilter !== f.key) return null
+                      return (
+                        <button
+                          key={f.key}
+                          onClick={() => setTagFilter(f.key)}
+                          className={chipClass(tagFilter === f.key, 'bg-[rgba(245,158,11,0.85)] text-white')}
+                        >
+                          {f.label}
+                          <span className={`ml-1.5 text-[10px] ${tagFilter === f.key ? 'opacity-80' : 'opacity-60'}`}>
+                            {count}
+                          </span>
+                        </button>
+                      )
+                    })}
                   </div>
                 </div>
               </div>
 
-              {/* Category filter */}
-              <div className="overflow-x-auto no-scrollbar">
-                <div className="flex items-center gap-1 glass rounded-lg p-1 w-max">
+              {/* Category filter — wraps so every option stays visible */}
+              <div>
+                <div className="flex flex-wrap items-center gap-1 glass rounded-lg p-1">
                   <button
                     onClick={() => setCategoryFilter('all')}
                     className={chipClass(categoryFilter === 'all', 'bg-[rgba(0,210,140,0.7)] text-white')}
