@@ -24,6 +24,22 @@ export interface Feature {
 
 export type UpcomingTag = 'New App' | 'New Feature' | 'Feature Update'
 
+export const upcomingCategories = [
+  'Field Operations',
+  'Scheduling & Dispatch',
+  'Safety & Compliance',
+  'Estimating & Takeoff',
+  'Sales & Customer',
+  'Materials & Equipment',
+  'AI & Automation',
+  'Analytics & Reporting',
+  'Workflow & Collaboration',
+] as const
+
+export type UpcomingCategory = (typeof upcomingCategories)[number]
+
+export type UpcomingComplexity = 'Low' | 'Low-Medium' | 'Medium' | 'Medium-High' | 'High'
+
 export interface UpcomingIdea {
   id: string
   slug: string
@@ -33,7 +49,8 @@ export interface UpcomingIdea {
   description: string
   date: string
   tag: UpcomingTag
-  complexity?: string
+  category: UpcomingCategory
+  complexity?: UpcomingComplexity
   highlights?: string[]
   prompt: string
 }

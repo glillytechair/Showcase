@@ -4,20 +4,22 @@ import { useState, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { features } from '@/data/features'
 import { upcomingIdeas } from '@/data/upcoming'
-import { UpcomingIdea } from '@/types'
+import { UpcomingIdea, UpcomingCategory, UpcomingComplexity, upcomingCategories } from '@/types'
 import FeatureCard from '@/components/FeatureCard'
 import FeatureRow from '@/components/FeatureRow'
 import UpcomingRow from '@/components/UpcomingRow'
 import GridBackground from '@/components/GridBackground'
-import { Zap, LayoutGrid, List, ArrowUpDown, SlidersHorizontal } from 'lucide-react'
+import { Zap, LayoutGrid, List, ArrowUpDown, SlidersHorizontal, Search, X, Layers } from 'lucide-react'
 
 type SortOrder = 'newest' | 'oldest'
 type ViewMode  = 'grid' | 'list'
 type Tab       = 'released' | 'upcoming'
 
-type UpcomingAppFilter = 'all' | 'DailyPlan' | 'QuoteGen'
-type UpcomingTagFilter = 'all' | 'New Feature' | 'Feature Update' | 'New App'
-type UpcomingSort = 'default' | 'complexity-desc' | 'complexity-asc' | 'alpha'
+type UpcomingAppFilter        = 'all' | 'DailyPlan' | 'QuoteGen'
+type UpcomingTagFilter        = 'all' | 'New Feature' | 'Feature Update' | 'New App'
+type UpcomingCategoryFilter   = 'all' | UpcomingCategory
+type UpcomingComplexityFilter = 'all' | UpcomingComplexity
+type UpcomingSort = 'default' | 'newest' | 'alpha' | 'complexity-desc' | 'complexity-asc'
 
 function complexityScore(idea: UpcomingIdea): number {
   switch (idea.complexity) {
@@ -30,36 +32,103 @@ function complexityScore(idea: UpcomingIdea): number {
   }
 }
 
+const complexityLevels: UpcomingComplexity[] = ['Low', 'Low-Medium', 'Medium', 'Medium-High', 'High']
+
 export default function HomePage() {
   const [sort, setSort]     = useState<SortOrder>('newest')
   const [view, setView]     = useState<ViewMode>('list')
   const [tab, setTab]       = useState<Tab>('released')
 
-  const [appFilter, setAppFilter] = useState<UpcomingAppFilter>('all')
-  const [tagFilter, setTagFilter] = useState<UpcomingTagFilter>('all')
-  const [upcomingSort, setUpcomingSort] = useState<UpcomingSort>('default')
+  const [appFilter, setAppFilter]               = useState<UpcomingAppFilter>('all')
+  const [tagFilter, setTagFilter]               = useState<UpcomingTagFilter>('all')
+  const [categoryFilter, setCategoryFilter]     = useState<UpcomingCategoryFilter>('all')
+  const [complexityFilter, setComplexityFilter] = useState<UpcomingComplexityFilter>('all')
+  const [query, setQuery]                       = useState('')
+  const [upcomingSort, setUpcomingSort]         = useState<UpcomingSort>('default')
+  const [groupByApp, setGroupByApp]             = useState(true)
 
   const sorted = [...features].sort((a, b) => {
     const delta = new Date(b.date).getTime() - new Date(a.date).getTime()
     return sort === 'newest' ? delta : -delta
   })
 
-  const filteredUpcoming = useMemo(() => {
-    let list = upcomingIdeas.filter((idea) => {
-      if (appFilter !== 'all' && idea.appName !== appFilter) return false
-      if (tagFilter !== 'all' && idea.tag !== tagFilter) return false
-      return true
-    })
+  // ── Upcoming filtering ──────────────────────────────────────────────────────
+  const q = query.trim().toLowerCase()
 
-    list = [...list].sort((a, b) => {
+  const matchesSearch = (idea: UpcomingIdea) => {
+    if (!q) return true
+    const haystack = [
+      idea.title,
+      idea.subtitle,
+      idea.description,
+      idea.appName,
+      idea.category,
+      ...(idea.highlights ?? []),
+    ]
+      .join(' ')
+      .toLowerCase()
+    return haystack.includes(q)
+  }
+
+  const matchesFilters = (
+    idea: UpcomingIdea,
+    ignore: { app?: boolean; tag?: boolean; category?: boolean; complexity?: boolean } = {},
+  ) => {
+    if (!ignore.app && appFilter !== 'all' && idea.appName !== appFilter) return false
+    if (!ignore.tag && tagFilter !== 'all' && idea.tag !== tagFilter) return false
+    if (!ignore.category && categoryFilter !== 'all' && idea.category !== categoryFilter) return false
+    if (!ignore.complexity && complexityFilter !== 'all' && idea.complexity !== complexityFilter) return false
+    return matchesSearch(idea)
+  }
+
+  const filteredUpcoming = useMemo(() => {
+    const list = upcomingIdeas.filter((idea) => matchesFilters(idea))
+
+    return [...list].sort((a, b) => {
       if (upcomingSort === 'alpha') return a.title.localeCompare(b.title)
+      if (upcomingSort === 'newest') return new Date(b.date).getTime() - new Date(a.date).getTime()
       if (upcomingSort === 'complexity-desc') return complexityScore(b) - complexityScore(a)
       if (upcomingSort === 'complexity-asc') return complexityScore(a) - complexityScore(b)
       return 0
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [appFilter, tagFilter, categoryFilter, complexityFilter, q, upcomingSort])
 
-    return list
-  }, [appFilter, tagFilter, upcomingSort])
+  // Counts for each chip, computed against every *other* active filter
+  const countByApp = (app: UpcomingAppFilter) =>
+    upcomingIdeas.filter((i) => (app === 'all' || i.appName === app) && matchesFilters(i, { app: true })).length
+  const countByTag = (tag: UpcomingTagFilter) =>
+    upcomingIdeas.filter((i) => (tag === 'all' || i.tag === tag) && matchesFilters(i, { tag: true })).length
+  const countByCategory = (cat: UpcomingCategoryFilter) =>
+    upcomingIdeas.filter((i) => (cat === 'all' || i.category === cat) && matchesFilters(i, { category: true })).length
+
+  // Grouped by app for the default organization
+  const groupedUpcoming = useMemo(() => {
+    const map = new Map<string, UpcomingIdea[]>()
+    filteredUpcoming.forEach((idea) => {
+      const list = map.get(idea.appName) ?? []
+      list.push(idea)
+      map.set(idea.appName, list)
+    })
+    return [...map.entries()]
+  }, [filteredUpcoming])
+
+  const showGrouped = groupByApp && appFilter === 'all' && upcomingSort === 'default'
+
+  const anyFilterActive =
+    appFilter !== 'all' ||
+    tagFilter !== 'all' ||
+    categoryFilter !== 'all' ||
+    complexityFilter !== 'all' ||
+    q !== ''
+
+  const clearFilters = () => {
+    setAppFilter('all')
+    setTagFilter('all')
+    setCategoryFilter('all')
+    setComplexityFilter('all')
+    setQuery('')
+  }
 
   const isReleased = tab === 'released'
 
@@ -78,10 +147,16 @@ export default function HomePage() {
 
   const sortOptions: { key: UpcomingSort; label: string }[] = [
     { key: 'default', label: 'Default order' },
+    { key: 'newest', label: 'Newest first' },
     { key: 'alpha', label: 'A — Z' },
     { key: 'complexity-desc', label: 'Complexity: High → Low' },
     { key: 'complexity-asc', label: 'Complexity: Low → High' },
   ]
+
+  const chipClass = (active: boolean, activeStyle = 'bg-[var(--accent)] text-white') =>
+    `px-3 py-1.5 rounded-md text-xs font-medium transition-colors duration-150 whitespace-nowrap ${
+      active ? activeStyle : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+    }`
 
   return (
     <div className="relative min-h-screen">
@@ -147,7 +222,7 @@ export default function HomePage() {
             >
               {isReleased
                 ? 'The latest features, enhancements, and improvements from our engineering team.'
-                : 'Ideas on the roadmap for DailyPlan and QuoteGen — new features and upgrades in progress.'}
+                : `${upcomingIdeas.length} ideas on the roadmap for DailyPlan and QuoteGen — search and filter by app, type, category, or complexity.`}
             </motion.p>
 
             {/* Decorated divider */}
@@ -173,24 +248,10 @@ export default function HomePage() {
             <div className="flex items-center gap-2">
               {/* Tab switcher */}
               <div className="flex items-center gap-1 glass rounded-lg p-1">
-                <button
-                  onClick={() => setTab('released')}
-                  className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors duration-150 ${
-                    tab === 'released'
-                      ? 'bg-[var(--accent)] text-white'
-                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-                  }`}
-                >
+                <button onClick={() => setTab('released')} className={chipClass(tab === 'released')}>
                   Released
                 </button>
-                <button
-                  onClick={() => setTab('upcoming')}
-                  className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors duration-150 ${
-                    tab === 'upcoming'
-                      ? 'bg-[var(--accent)] text-white'
-                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-                  }`}
-                >
+                <button onClick={() => setTab('upcoming')} className={chipClass(tab === 'upcoming')}>
                   Upcoming
                 </button>
               </div>
@@ -242,50 +303,117 @@ export default function HomePage() {
               transition={{ duration: 0.3 }}
               className="flex flex-col gap-3"
             >
+              {/* Search + result count */}
+              <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                <div className="relative flex-1 min-w-0">
+                  <Search
+                    size={14}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-secondary)] pointer-events-none"
+                  />
+                  <input
+                    type="text"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    placeholder="Search ideas — title, description, highlights…"
+                    className="w-full glass rounded-lg pl-9 pr-9 py-2.5 text-xs text-[var(--text-primary)] bg-transparent border border-[var(--border)] placeholder:text-[var(--text-secondary)] focus:outline-none focus:border-[rgba(79,142,247,0.5)] transition-colors"
+                  />
+                  {query && (
+                    <button
+                      onClick={() => setQuery('')}
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+                      aria-label="Clear search"
+                    >
+                      <X size={14} />
+                    </button>
+                  )}
+                </div>
+
+                <div className="flex items-center gap-3 flex-shrink-0">
+                  <span className="text-xs text-[var(--text-secondary)]">
+                    <span className="text-[var(--text-primary)] font-semibold">{filteredUpcoming.length}</span>
+                    {' '}of {upcomingIdeas.length} ideas
+                  </span>
+                  {anyFilterActive && (
+                    <button
+                      onClick={clearFilters}
+                      className="flex items-center gap-1.5 text-[11px] font-medium text-[var(--accent)] hover:text-[var(--text-primary)] glass rounded-lg px-2.5 py-1.5 border border-[rgba(79,142,247,0.25)] transition-colors"
+                    >
+                      <X size={11} />
+                      Clear filters
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* App + type filters */}
               <div className="flex flex-col sm:flex-row items-stretch sm:items-start gap-3">
-                {/* App filter — horizontal scroll on mobile */}
                 <div className="flex-1 min-w-0 overflow-x-auto no-scrollbar">
                   <div className="flex items-center gap-1 glass rounded-lg p-1 w-max">
                     {appFilters.map((f) => (
-                      <button
-                        key={f.key}
-                        onClick={() => setAppFilter(f.key)}
-                        className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors duration-150 whitespace-nowrap ${
-                          appFilter === f.key
-                            ? 'bg-[var(--accent)] text-white'
-                            : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-                        }`}
-                      >
+                      <button key={f.key} onClick={() => setAppFilter(f.key)} className={chipClass(appFilter === f.key)}>
                         {f.label}
+                        <span className={`ml-1.5 text-[10px] ${appFilter === f.key ? 'opacity-80' : 'opacity-60'}`}>
+                          {countByApp(f.key)}
+                        </span>
                       </button>
                     ))}
                   </div>
                 </div>
 
-                {/* Tag filter — horizontal scroll on mobile */}
                 <div className="flex-1 min-w-0 overflow-x-auto no-scrollbar">
                   <div className="flex items-center gap-1 glass rounded-lg p-1 w-max">
                     {tagFilters.map((f) => (
                       <button
                         key={f.key}
                         onClick={() => setTagFilter(f.key)}
-                        className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors duration-150 whitespace-nowrap ${
-                          tagFilter === f.key
-                            ? 'bg-[rgba(245,158,11,0.85)] text-white'
-                            : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-                        }`}
+                        className={chipClass(tagFilter === f.key, 'bg-[rgba(245,158,11,0.85)] text-white')}
                       >
                         {f.label}
+                        <span className={`ml-1.5 text-[10px] ${tagFilter === f.key ? 'opacity-80' : 'opacity-60'}`}>
+                          {countByTag(f.key)}
+                        </span>
                       </button>
                     ))}
                   </div>
                 </div>
               </div>
 
-              {/* Sort — button group on md+, compact native select below */}
-              <div className="flex items-center gap-2">
+              {/* Category filter */}
+              <div className="overflow-x-auto no-scrollbar">
+                <div className="flex items-center gap-1 glass rounded-lg p-1 w-max">
+                  <button
+                    onClick={() => setCategoryFilter('all')}
+                    className={chipClass(categoryFilter === 'all', 'bg-[rgba(0,210,140,0.7)] text-white')}
+                  >
+                    All categories
+                    <span className={`ml-1.5 text-[10px] ${categoryFilter === 'all' ? 'opacity-80' : 'opacity-60'}`}>
+                      {countByCategory('all')}
+                    </span>
+                  </button>
+                  {upcomingCategories.map((cat) => {
+                    const count = countByCategory(cat)
+                    if (count === 0 && categoryFilter !== cat) return null
+                    return (
+                      <button
+                        key={cat}
+                        onClick={() => setCategoryFilter(cat)}
+                        className={chipClass(categoryFilter === cat, 'bg-[rgba(0,210,140,0.7)] text-white')}
+                      >
+                        {cat}
+                        <span className={`ml-1.5 text-[10px] ${categoryFilter === cat ? 'opacity-80' : 'opacity-60'}`}>
+                          {count}
+                        </span>
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+
+              {/* Sort + complexity + grouping */}
+              <div className="flex flex-wrap items-center gap-2">
                 <SlidersHorizontal size={13} className="text-[var(--text-secondary)] flex-shrink-0" />
-                <div className="hidden sm:flex items-center gap-1 glass rounded-lg p-1">
+
+                <div className="hidden md:flex items-center gap-1 glass rounded-lg p-1">
                   {sortOptions.map((opt) => (
                     <button
                       key={opt.key}
@@ -303,7 +431,7 @@ export default function HomePage() {
                 <select
                   value={upcomingSort}
                   onChange={(e) => setUpcomingSort(e.target.value as UpcomingSort)}
-                  className="sm:hidden flex-1 glass rounded-lg px-3 py-2 text-xs text-[var(--text-primary)] bg-transparent border border-[var(--border)] appearance-none"
+                  className="md:hidden glass rounded-lg px-3 py-2 text-xs text-[var(--text-primary)] bg-transparent border border-[var(--border)] appearance-none"
                   style={{ backgroundImage: 'none' }}
                 >
                   {sortOptions.map((opt) => (
@@ -312,6 +440,40 @@ export default function HomePage() {
                     </option>
                   ))}
                 </select>
+
+                {/* Complexity filter */}
+                <select
+                  value={complexityFilter}
+                  onChange={(e) => setComplexityFilter(e.target.value as UpcomingComplexityFilter)}
+                  className="glass rounded-lg px-3 py-2 text-xs text-[var(--text-primary)] bg-transparent border border-[var(--border)] appearance-none"
+                  style={{ backgroundImage: 'none' }}
+                >
+                  <option value="all" className="bg-[#0a0c18]">All complexity</option>
+                  {complexityLevels.map((c) => (
+                    <option key={c} value={c} className="bg-[#0a0c18]">
+                      {c}
+                    </option>
+                  ))}
+                </select>
+
+                {/* Group by app toggle */}
+                <button
+                  onClick={() => setGroupByApp(g => !g)}
+                  disabled={appFilter !== 'all' || upcomingSort !== 'default'}
+                  title={
+                    appFilter !== 'all' || upcomingSort !== 'default'
+                      ? 'Grouping applies with All apps + Default order'
+                      : 'Toggle grouping by app'
+                  }
+                  className={`flex items-center gap-1.5 text-xs font-medium glass rounded-lg px-3 py-2 transition-colors duration-150 disabled:opacity-40 disabled:cursor-not-allowed ${
+                    showGrouped
+                      ? 'text-[var(--text-primary)] border border-[rgba(79,142,247,0.35)] bg-[rgba(79,142,247,0.15)]'
+                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border)]'
+                  }`}
+                >
+                  <Layers size={13} />
+                  Group by app
+                </button>
               </div>
             </motion.div>
           )}
@@ -359,10 +521,38 @@ export default function HomePage() {
               {filteredUpcoming.length === 0 ? (
                 <div className="glass rounded-xl px-6 py-12 text-center">
                   <p className="text-sm text-[var(--text-secondary)]">No ideas match the selected filters.</p>
+                  <button
+                    onClick={clearFilters}
+                    className="mt-4 inline-flex items-center gap-1.5 text-xs font-medium text-[var(--accent)] hover:text-[var(--text-primary)] glass rounded-lg px-3 py-2 border border-[rgba(79,142,247,0.25)] transition-colors"
+                  >
+                    <X size={12} />
+                    Clear all filters
+                  </button>
+                </div>
+              ) : showGrouped ? (
+                <div className="flex flex-col gap-8">
+                  {groupedUpcoming.map(([appName, ideas]) => (
+                    <section key={appName}>
+                      <div className="flex items-center gap-3 mb-3 px-1">
+                        <h2 className="text-sm font-semibold text-[var(--text-primary)] uppercase tracking-wider">
+                          {appName}
+                        </h2>
+                        <span className="text-[11px] text-[var(--text-secondary)] font-medium">
+                          {ideas.length} {ideas.length === 1 ? 'idea' : 'ideas'}
+                        </span>
+                        <div className="flex-1 h-px bg-gradient-to-r from-[rgba(79,142,247,0.35)] to-transparent" />
+                      </div>
+                      <div className="flex flex-col gap-3">
+                        {ideas.map((idea, i) => (
+                          <UpcomingRow key={idea.id} idea={idea} index={Math.min(i, 10)} />
+                        ))}
+                      </div>
+                    </section>
+                  ))}
                 </div>
               ) : (
                 filteredUpcoming.map((idea, i) => (
-                  <UpcomingRow key={idea.id} idea={idea} index={i} />
+                  <UpcomingRow key={idea.id} idea={idea} index={Math.min(i, 10)} />
                 ))
               )}
             </motion.div>

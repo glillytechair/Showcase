@@ -65,6 +65,10 @@ export default function UpcomingRow({ idea, index }: Props) {
               <span className={`tag-pill inline-flex items-center gap-1 ${tagClass[idea.tag] || ''}`}>
                 {idea.tag}
               </span>
+              <span className="text-[var(--text-secondary)] text-xs">·</span>
+              <span className="inline-flex items-center text-[10px] font-medium text-[#4dffc3] bg-[rgba(0,210,140,0.08)] border border-[rgba(0,210,140,0.25)] rounded-full px-2 py-0.5 leading-tight">
+                {idea.category}
+              </span>
               {idea.complexity && (
                 <>
                   <span className="text-[var(--text-secondary)] text-xs">·</span>
