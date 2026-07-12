@@ -53,9 +53,16 @@ export default function UpcomingRow({ idea, index }: Props) {
 
   return (
     <motion.div
+      layout="position"
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, delay: index * 0.04, ease: [0.22, 1, 0.36, 1] }}
+      exit={{ opacity: 0, scale: 0.97, transition: { duration: 0.18 } }}
+      transition={{
+        duration: 0.4,
+        delay: index * 0.04,
+        ease: [0.22, 1, 0.36, 1],
+        layout: { type: 'spring', stiffness: 350, damping: 34 },
+      }}
     >
       <div
         onClick={() => setExpanded((e) => !e)}
