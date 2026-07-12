@@ -6,6 +6,8 @@ import { Feature } from '@/types'
 import MediaViewer from '@/components/MediaViewer'
 import AnimatedSection from '@/components/AnimatedSection'
 import GridBackground from '@/components/GridBackground'
+import StatusBar from '@/components/StatusBar'
+import DecodeText from '@/components/DecodeText'
 import { ArrowLeft, ArrowRight, Calendar, Layers } from 'lucide-react'
 
 interface Props {
@@ -45,6 +47,7 @@ export default function FeatureShowcase({ feature, prev, next }: Props) {
   return (
     <div className="relative min-h-screen">
       <GridBackground />
+      <StatusBar />
 
       {/* Hero accent glow behind media */}
       <div
@@ -61,7 +64,7 @@ export default function FeatureShowcase({ feature, prev, next }: Props) {
           initial={{ opacity: 0, x: -12 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.4 }}
-          className="pt-8 mb-10 flex items-center justify-between"
+          className="pt-14 mb-10 flex items-center justify-between"
         >
           <Link
             href="/"
@@ -71,7 +74,7 @@ export default function FeatureShowcase({ feature, prev, next }: Props) {
             All updates
           </Link>
           <div className="terminal text-[10px] text-[var(--text-secondary)] tracking-widest hidden sm:block">
-            NETA<span className="text-[var(--accent)]">::</span>TECH<span className="text-[var(--accent)]">/</span>SHOWCASE
+            REF<span className="text-[var(--accent)]">::</span>{feature.slug.toUpperCase()}
           </div>
         </motion.div>
 
@@ -119,7 +122,7 @@ export default function FeatureShowcase({ feature, prev, next }: Props) {
             className="text-4xl md:text-5xl font-bold tracking-tight leading-tight mb-4 text-glow"
             style={{ letterSpacing: '-0.03em' }}
           >
-            {feature.title}
+            <DecodeText text={feature.title} delay={200} duration={650} />
           </h1>
 
           <p className="text-xl text-[var(--text-secondary)] leading-relaxed max-w-2xl">

@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { Feature } from '@/types'
+import TiltCard from '@/components/TiltCard'
 import { ArrowRight, Play, Sparkles } from 'lucide-react'
 
 interface Props {
@@ -40,6 +41,7 @@ export default function FeatureCard({ feature, index }: Props) {
       className="h-full"
     >
       <Link href={`/feature/${feature.slug}`} className="block group h-full">
+        <TiltCard className="h-full rounded-2xl" radiusClass="rounded-2xl">
         <article className={`glass glass-hover card-shimmer rounded-2xl overflow-hidden h-full flex flex-col relative ${isNewApp ? 'new-app-card' : ''}`}>
           <div className="shimmer-sweep" />
           {/* Media preview */}
@@ -131,6 +133,7 @@ export default function FeatureCard({ feature, index }: Props) {
             </div>
           </div>
         </article>
+        </TiltCard>
       </Link>
     </motion.div>
   )

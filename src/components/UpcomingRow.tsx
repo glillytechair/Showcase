@@ -3,7 +3,8 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { UpcomingIdea } from '@/types'
-import { Lightbulb, ChevronDown, Wrench, Copy, Check, Terminal, Calendar } from 'lucide-react'
+import ComplexityMeter from '@/components/ComplexityMeter'
+import { Lightbulb, ChevronDown, Copy, Check, Terminal, Calendar } from 'lucide-react'
 
 interface Props {
   idea: UpcomingIdea
@@ -95,10 +96,7 @@ export default function UpcomingRow({ idea, index }: Props) {
               {idea.complexity && (
                 <>
                   <span className="text-[var(--text-secondary)] text-xs">·</span>
-                  <span className="inline-flex items-center gap-1 text-[10px] text-[var(--text-secondary)] font-medium">
-                    <Wrench size={10} />
-                    {idea.complexity}
-                  </span>
+                  <ComplexityMeter complexity={idea.complexity} />
                 </>
               )}
             </div>
@@ -187,13 +185,18 @@ export default function UpcomingRow({ idea, index }: Props) {
             </div>
           </div>
 
-          {/* Expand chevron */}
-          <ChevronDown
-            size={15}
-            className={`flex-shrink-0 text-[var(--text-secondary)] group-hover:text-[var(--accent)] transition-all duration-200 mt-1 ${
-              expanded ? 'rotate-180' : ''
-            }`}
-          />
+          {/* ID readout + expand chevron */}
+          <div className="flex-shrink-0 flex flex-col items-end gap-2 mt-1">
+            <ChevronDown
+              size={15}
+              className={`text-[var(--text-secondary)] group-hover:text-[var(--accent)] transition-all duration-200 ${
+                expanded ? 'rotate-180' : ''
+              }`}
+            />
+            <span className="terminal text-[8px] tracking-[0.2em] text-[var(--text-secondary)] opacity-50 hidden sm:block">
+              {idea.id.toUpperCase().replace('-', '·')}
+            </span>
+          </div>
         </div>
 
         {/* Bottom glow line on hover */}
