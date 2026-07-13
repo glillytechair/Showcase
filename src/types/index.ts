@@ -40,6 +40,21 @@ export type UpcomingCategory = (typeof upcomingCategories)[number]
 
 export type UpcomingComplexity = 'Low' | 'Low-Medium' | 'Medium' | 'Medium-High' | 'High'
 
+export type RoadmapBucket = 'now' | 'next' | 'later'
+
+export interface RoadmapItem {
+  id: string
+  bucket: RoadmapBucket
+  title: string
+  area: string           // e.g. "InventoryTracker", "DailyPlan", "QuoteGen"
+  approved: string       // ISO date the item was approved
+  target: string         // ISO date or "TBD"
+  what: string           // one-sentence description
+  why: string            // the payoff
+  doneWhen: string       // acceptance criteria
+  note?: string          // caveats / open decisions
+}
+
 export interface UpcomingIdea {
   id: string
   slug: string

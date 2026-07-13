@@ -4,10 +4,12 @@ import { useState, useMemo, useEffect, useRef } from 'react'
 import { motion, AnimatePresence, animate } from 'framer-motion'
 import { features } from '@/data/features'
 import { upcomingIdeas } from '@/data/upcoming'
-import { UpcomingIdea, UpcomingCategory, UpcomingComplexity, upcomingCategories } from '@/types'
+import { roadmapItems } from '@/data/roadmap'
+import { UpcomingIdea, UpcomingCategory, UpcomingComplexity, upcomingCategories, RoadmapBucket } from '@/types'
 import FeatureCard from '@/components/FeatureCard'
 import FeatureRow from '@/components/FeatureRow'
 import UpcomingRow from '@/components/UpcomingRow'
+import RoadmapRow from '@/components/RoadmapRow'
 import GridBackground from '@/components/GridBackground'
 import StatusBar from '@/components/StatusBar'
 import DecodeText from '@/components/DecodeText'
@@ -15,7 +17,13 @@ import { Zap, LayoutGrid, List, ArrowUpDown, SlidersHorizontal, Search, X, Layer
 
 type SortOrder = 'newest' | 'oldest'
 type ViewMode  = 'grid' | 'list'
-type Tab       = 'released' | 'upcoming'
+type Tab       = 'released' | 'upcoming' | 'roadmap'
+
+const roadmapBuckets: { key: RoadmapBucket; label: string; blurb: string }[] = [
+  { key: 'now', label: 'Now', blurb: 'IN FLIGHT' },
+  { key: 'next', label: 'Next', blurb: 'QUEUED' },
+  { key: 'later', label: 'Later', blurb: 'APPROVED · NOT SCHEDULED' },
+]
 
 type UpcomingAppFilter        = 'all' | 'DailyPlan' | 'QuoteGen'
 type UpcomingTagFilter        = 'all' | 'New Feature' | 'Feature Update' | 'New App'
@@ -276,7 +284,17 @@ export default function HomePage() {
   }
 
   const isReleased = tab === 'released'
+  const isUpcoming = tab === 'upcoming'
+  const isRoadmap  = tab === 'roadmap'
   const dir = isReleased ? -1 : 1
+
+  const roadmapByBucket = useMemo(() => {
+    const map = new Map<RoadmapBucket, typeof roadmapItems>()
+    roadmapBuckets.forEach((b) => {
+      map.set(b.key, roadmapItems.filter((item) => item.bucket === b.key))
+    })
+    return map
+  }, [])
 
   const appFilters: { key: UpcomingAppFilter; label: string }[] = [
     { key: 'all', label: 'All apps' },
@@ -304,6 +322,12 @@ export default function HomePage() {
         { label: 'Shipped', value: features.length, delay: 0.3 },
         { label: 'Apps', value: appCount, delay: 0.45 },
         { label: 'In pipeline', value: upcomingIdeas.length, delay: 0.6 },
+      ]
+    : isRoadmap
+    ? [
+        { label: 'Now', value: roadmapByBucket.get('now')?.length ?? 0, delay: 0.3 },
+        { label: 'Next', value: roadmapByBucket.get('next')?.length ?? 0, delay: 0.45 },
+        { label: 'Later', value: roadmapByBucket.get('later')?.length ?? 0, delay: 0.6 },
       ]
     : [
         { label: 'Ideas queued', value: upcomingIdeas.length, delay: 0.3 },
@@ -363,7 +387,10 @@ export default function HomePage() {
               className="hero-title block text-5xl md:text-7xl font-bold leading-none"
               style={{ letterSpacing: '-0.04em' }}
             >
-              <DecodeText text={isReleased ? "What we've built" : "What's coming"} delay={150} />
+              <DecodeText
+                text={isReleased ? "What we've built" : isRoadmap ? "Where we're headed" : "What's coming"}
+                delay={150}
+              />
               <span className="hero-caret" aria-hidden="true" />
             </motion.h1>
 
@@ -377,6 +404,8 @@ export default function HomePage() {
             >
               {isReleased
                 ? 'The latest features, enhancements, and improvements from our engineering team.'
+                : isRoadmap
+                ? `${roadmapItems.length} approved items we're committed to pursuing — grouped by Now, Next, and Later. Expand any card for the payoff and acceptance criteria.`
                 : `${upcomingIdeas.length} roadmap ideas for DailyPlan and QuoteGen — expand any card for details and its AI build prompt.`}
             </motion.p>
 
@@ -451,7 +480,7 @@ export default function HomePage() {
             <div className="flex items-center gap-2">
               {/* Tab switcher — sliding pill */}
               <div className="flex items-center gap-1 glass rounded-lg p-1">
-                {(['released', 'upcoming'] as Tab[]).map((t) => (
+                {(['released', 'upcoming', 'roadmap'] as Tab[]).map((t) => (
                   <motion.button
                     key={t}
                     onClick={() => setTab(t)}
@@ -469,9 +498,9 @@ export default function HomePage() {
                       />
                     )}
                     <span className="relative z-10 capitalize inline-flex items-center gap-1.5">
-                      {t}
+                      {t === 'roadmap' ? 'road map' : t}
                       <span className={`text-[10px] tabular-nums ${tab === t ? 'opacity-80' : 'opacity-50'}`}>
-                        {t === 'released' ? features.length : upcomingIdeas.length}
+                        {t === 'released' ? features.length : t === 'roadmap' ? roadmapItems.length : upcomingIdeas.length}
                       </span>
                     </span>
                   </motion.button>
@@ -527,7 +556,7 @@ export default function HomePage() {
           </div>
 
           {/* Upcoming control panel — boots up row by row */}
-          {!isReleased && (
+          {isUpcoming && (
             <motion.div
               variants={panelVariants}
               initial="hidden"
@@ -815,6 +844,39 @@ export default function HomePage() {
                 ))}
               </motion.div>
             )
+          ) : isRoadmap ? (
+            <motion.div
+              key="roadmap"
+              initial={{ opacity: 0, x: 24 * dir }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -24 * dir }}
+              transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+              className="flex flex-col gap-10"
+            >
+              {roadmapBuckets.map(({ key, label, blurb }) => {
+                const items = roadmapByBucket.get(key) ?? []
+                if (items.length === 0) return null
+                return (
+                  <section key={key}>
+                    <div className="flex items-center gap-3 mb-4 px-1">
+                      <span className="terminal text-[10px] text-[#4dffc3]">▣</span>
+                      <h2 className="terminal text-xs font-semibold text-[var(--text-primary)] uppercase tracking-[0.3em]">
+                        {label}
+                      </h2>
+                      <span className="terminal text-[10px] text-[var(--text-secondary)] tracking-widest">
+                        {'// '}{blurb}{' · '}{items.length}
+                      </span>
+                      <div className="flex-1 data-stream" />
+                    </div>
+                    <div className="flex flex-col gap-3">
+                      {items.map((item, i) => (
+                        <RoadmapRow key={item.id} item={item} index={Math.min(i, 10)} />
+                      ))}
+                    </div>
+                  </section>
+                )
+              })}
+            </motion.div>
           ) : (
             <motion.div
               key="upcoming"
